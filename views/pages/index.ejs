@@ -10,6 +10,11 @@
 
 <div class="jumbotron text-center">
   <div class="container">
+    <div class="alert alert-success text-center" role="alert">
+      <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+      Your Storj email is: <strong><%= STORJ_EMAIL %></strong><br>
+      Your password is: <strong><%= STORJ_PASSWORD %></strong>
+    </div>
     <a href="/" class="lang-logo">
       <img src="/assets/lang-logo.png">
     </a>
@@ -17,9 +22,6 @@
     <p>Storj object storage provider, allowing application developers to store their data quickly, securely, and for half the price.</p>
     <a type="button" class="btn btn-lg btn-default" href="http://docs.storj.io/">Getting Started with Storj</a>
     <a type="button" class="btn btn-lg btn-primary" href="https://github.com/Storj/">Source on GitHub</a>
-    <div class="alert alert-info text-center" role="alert">
-      <p>Your Storj email is: <%= STORJ_EMAIL %> and your password is: <%= STORJ_PASSWORD %></p>
-    </div>
   </div>
 </div>
 <div class="container">

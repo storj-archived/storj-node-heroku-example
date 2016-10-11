@@ -34,6 +34,9 @@
 .jumbotron .lang-logo img {
     max-width: 100%;
 }
+.jumbotron .alert {
+    margin: 0 auto 3em;
+}
 @media (max-width: 767px) {
   .jumbotron p {
     max-width: 80%;
