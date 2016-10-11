@@ -7,9 +7,12 @@
     border-color: #173AE8; }
     .jumbotron .btn-primary:hover {
       background: #003366; }
+  .jumbotron h1 {
+    font-size: 42px; }
   .jumbotron p {
     color: #fff;
-    max-width: 75%;
+    max-width: 65%;
+    font-size: 18px;
     margin: 1em auto 2em; }
   .navbar + .jumbotron {
     margin-top: -20px; }
