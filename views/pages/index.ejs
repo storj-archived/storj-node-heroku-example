@@ -8,21 +8,27 @@
 
   <% include ../partials/nav.ejs %>
 
-<div class="jumbotron text-center">
-  <div class="container">
-    <a href="/" class="lang-logo">
-      <img src="/assets/logo.png">
-    </a>
-    <h1>Getting Started with Storj on Heroku</h1>
-    <p><a href="https://storj.io/">Storj</a> is a distributed cloud storage platform, suitable for static content.<br>This page is an example of hosting and serving assets from Storj.</p>
-    <a type="button" class="btn btn-lg btn-primary" href="http://docs.storj.io/">Quickstart Guide</a>
-  </div>
-</div>
 <div class="container">
-  <div class="alert alert-success text-center" role="alert">
-    <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
-    Your Storj email is: <strong><%= STORJ_EMAIL %></strong><br>
-    Your password is: <strong><%= STORJ_PASSWORD %></strong>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="jumbotron text-center">
+        <a href="/" class="lang-logo">
+          <img src="/assets/logo.png">
+        </a>
+        <h1>Getting Started with Storj on Heroku</h1>
+        <p><a href="https://storj.io/">Storj</a> is a distributed cloud storage platform, suitable for static content.<br>This page is an example of hosting and serving assets from Storj.</p>
+        <a type="button" class="btn btn-lg btn-primary" href="http://docs.storj.io/">Quickstart Guide</a>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="alert alert-success text-center" role="alert">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+        Your Storj email is: <strong><%= STORJ_EMAIL %></strong><br>
+        Your password is: <strong><%= STORJ_PASSWORD %></strong>
+      </div>
+    </div>
   </div>
 </div>
 
