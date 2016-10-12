@@ -14,6 +14,7 @@
 }
 .jumbotron h1 {
     font-size: 42px;
+    font-weight: bold;
 }
 .jumbotron p {
     max-width: 65%;
