@@ -4,6 +4,7 @@
 }
 .jumbotron .btn {
     border: 0;
+    padding: 1em 2em;
 }
 .jumbotron .btn-primary {
     background: #2683ff;
