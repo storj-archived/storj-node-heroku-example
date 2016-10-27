@@ -2,7 +2,7 @@ var express = require('express');
 var fs = require('fs');
 var async = require('async');
 var app = express();
-var utils = require('./lib/utils');
+var utils = require('storj-sugar').utils;
 var path = require('path');
 var STORJ_EMAIL = process.env.STORJ_EMAIL;
 var STORJ_PASSWORD = process.env.STORJ_PASSWORD;
@@ -20,6 +20,7 @@ app.set('view engine', 'ejs');
 
 
 var storjOptions = {
+  logLevel: 2,
   basicauth: {
     email: STORJ_EMAIL,
     password: STORJ_PASSWORD,
@@ -29,13 +30,14 @@ var storjOptions = {
 
 // Log into bridge
 utils.getBasicAuthClient(storjOptions, function(client) {
+  var self = this;
+
   console.log('Got Storj client');
 
   // Create a bucket for our files
   console.log('Creating bucket %s', 'assets');
-  utils.createBucket(client, 'assets', function(bucketId) {
-    console.log('Bucket created with ID %s', bucketId);
 
+  this.pushAssets = function(bucketId) {
     // Get all of our local assets
     fs.readdir(localAssetsDir, function(err, files) {
       console.log('Got file list to upload: ', files);
@@ -45,21 +47,49 @@ utils.getBasicAuthClient(storjOptions, function(client) {
         var filePath = path.join(localAssetsDir, file);
         var isFile = ( fs.lstatSync(filePath).isFile() );
 
+        console.log('Attempting to upload file \'%s\'', file);
+
         if (isFile) {
-          utils.uploadFile(client, bucketId, filePath, KEYRING_PASSWORD, function(err, fileId) {
-            console.log('Uploaded file: ', fileId);
+          utils.fileExists(client, bucketId, file, function(fileExists) {
+            if (fileExists) {
+              console.log('File \'%s\' already exists with id %s, moving right along...', file, fileExists);
 
-            // Add each of our files to the filemap so we can retrieve them later
-            fileMap[file.name] = {
-              bucketId: bucketId,
-              fileId: fileId
-            };
+              return callback();
+            }
 
-            return callback();
+            if (!fileExists) {
+              console.log('File \'%s\' didnt exist in bucket so uploading', file);
+
+              utils.uploadFile(client, bucketId, filePath, KEYRING_PASSWORD, function(err, fileId) {
+                console.log('File upload for \'%s\' complete. File id: %s', file, fileId);
+
+                // Add each of our files to the filemap so we can retrieve them later
+                fileMap[file] = {
+                  bucketId: bucketId,
+                  fileId: fileId
+                };
+
+                return callback();
+              });
+            }
           });
+        } else {
+          console.log('Looks like %s is not a file so skipping this one...', file.name);
         }
       });
     });
+  };
+
+  utils.bucketExists(client, 'assets2', function(bucketExists) {
+    if (bucketExists) {
+      console.log('Bucket already exists with id %s. Pushing assets', bucketExists);
+      this.pushAssets(bucketExists);
+    } else {
+      utils.createBucket(client, 'assets2', function(bucketId) {
+        console.log('Bucket created with ID %s', bucketId);
+        this.pushAssets(bucketId);
+      });
+    }
   });
 });
 
@@ -79,7 +109,8 @@ app.get('/:bucketname/:filename', function(request, response) {
   utils.getBasicAuthClient(storjOptions, function(client) {
     utils.getFileStreamByName(client, fileOptions, function(err, fileStream, decrypter) {
       if (err) {
-        return console.log('Error getting file stream: ', err);
+        console.log('Error getting file stream: ', err);
+        return response.send(404);
       }
 
       console.log('Returning file to request');
@@ -106,7 +137,7 @@ app.get('/:bucketname/:filename', function(request, response) {
       }
 
       //fileStream.resume();
-      fileStream.pipe(decrypter).pipe(response);
+      fileStream.pipe(response);
     });
   });
 });
