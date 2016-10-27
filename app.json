@@ -2,7 +2,7 @@
   "name": "Storj on Heroku",
   "description": "Example app using Storj.",
   "repository": "https://github.com/Storj/storj-node-heroku-example",
-  "logo": "https://storj-example-template.herokuapp.com/assets/logo.png",
+  "logo": "https://storj.io/img/storj-logo.jpg",
   "keywords": ["storj", "heroku", "node"],
   "image": "heroku/nodejs"
 }
