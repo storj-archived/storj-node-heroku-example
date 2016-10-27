@@ -8,6 +8,7 @@ var STORJ_EMAIL = process.env.STORJ_EMAIL;
 var STORJ_PASSWORD = process.env.STORJ_PASSWORD;
 var KEYRING_PASSWORD = 'mykeyringpassword';
 var localAssetsDir = __dirname + '/public';
+var assetsBucketName = 'public_assets';
 var fileMap = {};
 
 app.set('port', (process.env.PORT || 5000));
@@ -35,7 +36,7 @@ utils.getBasicAuthClient(storjOptions, function(client) {
   console.log('Got Storj client');
 
   // Create a bucket for our files
-  console.log('Creating bucket %s', 'assets');
+  console.log('Creating bucket %s', assetsBucketName);
 
   this.pushAssets = function(bucketId) {
     // Get all of our local assets
@@ -51,6 +52,8 @@ utils.getBasicAuthClient(storjOptions, function(client) {
 
         if (isFile) {
           utils.fileExists(client, bucketId, file, function(fileExists) {
+            console.log('File exists is: %s', fileExists);
+
             if (fileExists) {
               console.log('File \'%s\' already exists with id %s, moving right along...', file, fileExists);
 
@@ -80,12 +83,12 @@ utils.getBasicAuthClient(storjOptions, function(client) {
     });
   };
 
-  utils.bucketExists(client, 'assets2', function(bucketExists) {
+  utils.bucketExists(client, assetsBucketName, function(bucketExists) {
     if (bucketExists) {
       console.log('Bucket already exists with id %s. Pushing assets', bucketExists);
       this.pushAssets(bucketExists);
     } else {
-      utils.createBucket(client, 'assets2', function(bucketId) {
+      utils.createBucket(client, assetsBucketName, function(bucketId) {
         console.log('Bucket created with ID %s', bucketId);
         this.pushAssets(bucketId);
       });
@@ -107,7 +110,7 @@ app.get('/:bucketname/:filename', function(request, response) {
   };
 
   utils.getBasicAuthClient(storjOptions, function(client) {
-    utils.getFileStreamByName(client, fileOptions, function(err, fileStream, decrypter) {
+    utils.getFileStreamByName(client, fileOptions, function(err, fileStream) {
       if (err) {
         console.log('Error getting file stream: ', err);
         return response.send(404);
@@ -136,8 +139,7 @@ app.get('/:bucketname/:filename', function(request, response) {
         console.log("File type unknown");
       }
 
-      //fileStream.resume();
-      fileStream.pipe(response);
+      fileStream.resume().pipe(response);
     });
   });
 });
