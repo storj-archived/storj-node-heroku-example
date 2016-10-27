@@ -1,8 +1,8 @@
 {
-  "name": "Start on Heroku: Node.js",
-  "description": "A barebones Node.js app using Express 4",
-  "repository": "https://github.com/heroku/node-js-getting-started",
-  "logo": "http://node-js-sample.herokuapp.com/node.svg",
-  "keywords": ["node", "express", "static"],
+  "name": "Storj on Heroku",
+  "description": "Example app using Storj.",
+  "repository": "https://github.com/Storj/storj-node-heroku-example",
+  "logo": "https://storj-example-template.herokuapp.com/assets/logo.png",
+  "keywords": ["storj", "heroku", "node"],
   "image": "heroku/nodejs"
 }

@@ -1,4 +1,4 @@
-# node-js-getting-started
+# storj-node-heroku-example
 
 A barebones Node.js app using [Express 4](http://expressjs.com/).
 
@@ -20,7 +20,8 @@ Your app should now be running on [localhost:5000](http://localhost:5000/).
 ## Deploying to Heroku
 
 ```
-$ heroku create
+$ heroku create storj-example
+$ heroku addons:create storj --app storj-example
 $ git push heroku master
 $ heroku open
 ```

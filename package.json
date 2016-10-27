@@ -13,7 +13,8 @@
     "async": "^2.0.1",
     "ejs": "2.4.1",
     "express": "4.13.3",
-    "storj": "^3.2.0"
+    "storj-lib": "4.1.0",
+    "storj-sugar": "0.1.4"
   },
   "repository": {
     "type": "git",
