@@ -8,7 +8,7 @@ var STORJ_EMAIL = process.env.STORJ_EMAIL;
 var STORJ_PASSWORD = process.env.STORJ_PASSWORD;
 var KEYRING_PASSWORD = 'mykeyringpassword';
 var localAssetsDir = __dirname + '/public';
-var assetsBucketName = 'public_assets_3';
+var assetsBucketName = 'public_assets_4';
 var fileMap = {};
 
 app.set('port', (process.env.PORT || 5000));
