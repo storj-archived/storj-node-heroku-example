@@ -14,7 +14,7 @@
     "ejs": "2.4.1",
     "express": "4.13.3",
     "storj-lib": "5.1.2",
-    "storj-sugar": "0.1.4"
+    "storj-sugar": "0.1.5"
   },
   "repository": {
     "type": "git",
