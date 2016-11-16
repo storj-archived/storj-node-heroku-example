@@ -8,7 +8,7 @@ var STORJ_EMAIL = process.env.STORJ_EMAIL;
 var STORJ_PASSWORD = process.env.STORJ_PASSWORD;
 var KEYRING_PASSWORD = 'mykeyringpassword';
 var localAssetsDir = __dirname + '/public';
-var assetsBucketName = 'public_assets_4';
+var assetsBucketName = 'public_assets_5';
 var fileMap = {};
 
 app.set('port', (process.env.PORT || 5000));
@@ -41,9 +41,13 @@ utils.getBasicAuthClient(storjOptions, function(client) {
   this.pushAssets = function(bucketId) {
     // Get all of our local assets
     fs.readdir(localAssetsDir, function(err, files) {
+      var filesList = files.filter(function(_file) {
+        return !_file.match(/.*\.crypt/);
+      });
+
       console.log('Got file list to upload: ', files);
       // Loop through assets and upload each of them
-      async.eachSeries(files, function(file, callback) {
+      async.eachSeries(filesList, function(file, callback) {
         // need to get the name of the file out of the path here
         var filePath = path.join(localAssetsDir, file);
         var isFile = ( fs.lstatSync(filePath).isFile() );
