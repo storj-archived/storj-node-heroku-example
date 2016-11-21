@@ -1,30 +1,38 @@
-var express = require('express');
-var fs = require('fs');
-var async = require('async');
-var app = express();
-var utils = require('storj-sugar').utils;
-var path = require('path');
-var STORJ_EMAIL = process.env.STORJ_EMAIL;
-var STORJ_PASSWORD = process.env.STORJ_PASSWORD;
-var KEYRING_PASSWORD = 'mykeyringpassword';
-var localAssetsDir = __dirname + '/public';
-var assetsBucketName = 'public_assets_5';
-var fileMap = {};
+const express = require('express');
+const fs = require('fs');
+const async = require('async');
+const app = express();
+const path = require('path');
+const storj = require('storj-lib');
+const localAssetsDir = __dirname + '/public';
 
-// add random line to force heroku to rebuild blah blah blah
-
-app.set('port', (process.env.PORT || 5000));
-
-app.use(express.static(__dirname + '/public'));
-
-var storjOptions = {
-  logLevel: 2,
-  basicauth: {
+// Storj specific variables
+const STORJ_EMAIL = process.env.STORJ_EMAIL;
+const STORJ_PASSWORD = process.env.STORJ_PASSWORD;
+const KEYRING_PASSWORD = 'mykeyringpassword';
+// Set the bridge api URL
+const api = 'https://api.storj.io';
+// Set user options
+const storjOptions = {
+  basicAuth: {
     email: STORJ_EMAIL,
     password: STORJ_PASSWORD,
     concurrency: 6
   }
 };
+// Create client for interacting with API
+const client = storj.BridgeClient(api, storjOptions);
+
+app.set('port', (process.env.PORT || 5000));
+
+app.use(express.static(__dirname + '/public'));
+
+
+var keyring =
+
+app.get('/authenticate', function(res, req) {
+
+})
 
 // Log into bridge
 // utils.getBasicAuthClient(storjOptions, function(client) {
