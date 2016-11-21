@@ -9,6 +9,7 @@
   </head>
 
   <body>
+    <!-- navbar start -->
     <nav class="navbar navbar-default navbar-static-top">
       <div class="container">
         <ul class="nav navbar-nav">
@@ -45,13 +46,14 @@
         </ul>
       </div>
     </nav>
+    <!-- navbar end -->
 
     <div class="container">
       <div class="row">
         <div class="col-xs-12">
           <div class="jumbotron text-center">
             <a href="/" class="lang-logo">
-              <img src="/public_assets_5/logo.png">
+              <img src="logo.png">
             </a>
             <h1>Getting Started with Storj on Heroku Changes</h1>
             <p><a href="https://storj.io/">Storj</a> is a distributed cloud storage platform, suitable for static content.<br>This page is an example of hosting and serving assets from Storj.</p>
@@ -59,16 +61,100 @@
           </div>
         </div>
       </div>
+
+      <hr>
+
       <div class="row">
         <div class="col-xs-12">
-          <div class="alert alert-success text-center" role="alert">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
-            Your Storj email is: <strong><%= STORJ_EMAIL %></strong><br>
-            Your password is: <strong><%= STORJ_PASSWORD %></strong>
+          <strong>
+            Goal: Upload grumpy.jpg into Storj bucket and download grump.jpg from Storj bucket and display image here
+          </strong>
+          <img src="">
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- Key Pair -->
+      <div class="row">
+        <div class="col-xs-12">
+          <h3> 1. Key Pair </h3>
+          <div class="row">
+            <div class="col-xs-3">
+              <button class="btn btn-lg btn-primary">Retrieve / Generate</button>
+            </div>
+            <div class="col-xs-6">
+              <div class="row">Key pair: "KEY_PAIR"</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              "Enter explanation and link to how to generate Key pair here"
+            </div>
           </div>
         </div>
       </div>
-    </div>
+
+      <hr>
+
+      <!-- Authentication -->
+      <div class="row">
+        <div class="col-xs-12">
+          <h3> 2. Login </h3>
+          <div class="row">
+            <div class="col-xs-3">
+              <button class="btn btn-lg btn-primary">Authenticate</button>
+            </div>
+            <div class="col-xs-6">
+              <div class="row">Username: "STORJ_EMAIL"</div>
+              <div class="row">Password: "STORJ_PASSWORD"</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- Buckets -->
+      <div class="row">
+        <div class="col-xs-12">
+          <h3> 3. Buckets </h3>
+          <div class="bucket-list">
+            <h4>Your Buckets</h4>
+            "BUCKET_LIST"
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <input class="new-bucket-name" type="text" placeholder="Enter bucket name" />
+            <button class="btn btn-md btn-primary">Create Bucket</button>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- Files -->
+      <div class="row">
+        <div class="col-xs-12">
+          <h3> 3. Files </h3>
+          <div class="uploaded-file-list">
+            "UPLOADED_FILES""
+          </div>
+        </div>
+      </div>
+
+
+  </div>
+
+    1. Generate keypair
+    2.
+    3. List buckets
+    4. Create a bucket
+    5. List files
+    6. Upload file
+    7. Download file
+
 
   </body>
 </html>

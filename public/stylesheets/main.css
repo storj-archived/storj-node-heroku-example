@@ -42,3 +42,9 @@
     max-width: 80%;
   }
 }
+
+.new-bucket-name {
+  width: 200px;
+  margin: 15px;
+  padding: 5px 10px;
+}
