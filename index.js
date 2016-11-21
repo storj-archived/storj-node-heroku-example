@@ -11,7 +11,7 @@ var localAssetsDir = __dirname + '/public';
 var assetsBucketName = 'public_assets_5';
 var fileMap = {};
 
-// add random line to force heroku to rebuild
+// add random line to force heroku to rebuild blah blah blah
 
 app.set('port', (process.env.PORT || 5000));
 
