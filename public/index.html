@@ -61,16 +61,13 @@
           </div>
         </div>
       </div>
+    </div>
 
-      <hr>
+    <hr>
 
-      <div class="row">
-        <div class="col-xs-12">
-          <strong>
-            Goal: Upload grumpy.jpg into Storj bucket and download grump.jpg from Storj bucket and display image here
-          </strong>
-          <img src="">
-        </div>
+    <div class="container storj-methods">
+      <div class="row grumpy-holder">
+        <img src="" alt="Goal: Upload grumpy.jpg into Storj bucket and download grump.jpg from Storj bucket and display image here" class="grumpy">
       </div>
 
       <hr>
@@ -78,7 +75,7 @@
       <!-- Key Pair -->
       <div class="row">
         <div class="col-xs-12">
-          <h3> 1. Key Pair </h3>
+          <h3>1. Key Pair</h3>
           <div class="row">
             <div class="col-xs-3">
               <button class="btn btn-lg btn-primary">Retrieve / Generate</button>
@@ -88,8 +85,8 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-xs-12">
-              "Enter explanation and link to how to generate Key pair here"
+            <div class="col-xs-12 spacer">
+              "Enter explanation and link to how to generate keypair here"
             </div>
           </div>
         </div>
@@ -100,14 +97,27 @@
       <!-- Authentication -->
       <div class="row">
         <div class="col-xs-12">
-          <h3> 2. Login </h3>
+          <h3>2. Login</h3>
+          <div class="row">
+            <div class="col-xs-3">
+              <button class="btn btn-lg btn-primary">Show credentials</button>
+            </div>
+            <div class="col-xs-9">
+              <div class="row">Username: "STORJ_EMAIL"</div>
+              <div class="row">Password: "STORJ_PASSWORD"</div>
+            </div>
+          </div>
+          <div class="spacer"></div>
           <div class="row">
             <div class="col-xs-3">
               <button class="btn btn-lg btn-primary">Authenticate</button>
             </div>
-            <div class="col-xs-6">
-              <div class="row">Username: "STORJ_EMAIL"</div>
-              <div class="row">Password: "STORJ_PASSWORD"</div>
+            <div class="col-xs-9 authentication-result">
+              <div class="row">
+                Authentication
+                <span class="authentication__good">successful</span>
+                <span class="authentication__bad">failed</span>
+              </div>
             </div>
           </div>
         </div>
@@ -118,15 +128,19 @@
       <!-- Buckets -->
       <div class="row">
         <div class="col-xs-12">
-          <h3> 3. Buckets </h3>
-          <div class="bucket-list">
-            <h4>Your Buckets</h4>
-            "BUCKET_LIST"
+          <h3>3. Buckets</h3>
+          <div class="row bucket-list">
+            <div class="col-xs-12">
+              <h4>Your Buckets</h4>
+              "BUCKET_LIST"
+            </div>
           </div>
         </div>
         <div class="row">
-          <div class="col-xs-12">
+          <div class="col-xs-3">
             <input class="new-bucket-name" type="text" placeholder="Enter bucket name" />
+          </div>
+          <div class="col-xs-9">
             <button class="btn btn-md btn-primary">Create Bucket</button>
           </div>
         </div>
@@ -137,24 +151,49 @@
       <!-- Files -->
       <div class="row">
         <div class="col-xs-12">
-          <h3> 3. Files </h3>
-          <div class="uploaded-file-list">
-            "UPLOADED_FILES""
+          <h3>4. Files</h3>
+          <div class="row uploaded-file-list">
+            <div class="col-xs-12">
+              <h4>Uploaded Files</h4>
+              "UPLOADED FILES"
+            </div>
+          </div>
+
+          <div class="spacer"></div>
+
+          <div class="row upload-file">
+            <div class="col-xs-12">
+              <h4>Upload Files</h4>
+              <div class="row">
+                <div class="col-xs-3">
+                  "FILE LIST"
+                </div>
+                <div class="col-xs-6">
+                  <button class="btn btn-md btn-primary">Upload file(s)</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="spacer"></div>
+
+          <div class="row download-file">
+            <div class="col-xs-12">
+              <h4>Download File</h4>
+              <div class="row">
+                <div class="col-xs-3">
+                  "DOWNLOADED FILE"
+                </div>
+                <div class="col-xs-6">
+                  <button class="btn btn-md btn-primary">Download file</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+    </div>
 
-
-  </div>
-
-    1. Generate keypair
-    2.
-    3. List buckets
-    4. Create a bucket
-    5. List files
-    6. Upload file
-    7. Download file
-
-
+    <hr>
   </body>
 </html>

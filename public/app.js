@@ -1,5 +1,3 @@
 $(document).ready(function() {
-  function authenticate() {
-
-  }
+  // All jQuery/JavaScript code will go in here
 })

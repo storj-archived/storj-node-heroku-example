@@ -43,8 +43,31 @@
   }
 }
 
+.spacer {
+  margin-top: 20px;
+}
+
+/* Make all buttons 200px */
+.storj-methods button {
+  width: 200px;
+}
+
+.grumpy-holder {
+  text-align: center;
+}
+
+.grumpy {
+  height: 300px;
+  width: 300px;
+  border: 1px solid black;
+}
+
+.bucket-list {
+  margin-bottom: 15px;
+}
+
 .new-bucket-name {
   width: 200px;
-  margin: 15px;
   padding: 5px 10px;
+  margin-left: 15px;
 }
