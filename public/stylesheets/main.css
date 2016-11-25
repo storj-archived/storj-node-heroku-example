@@ -52,6 +52,14 @@
   width: 200px;
 }
 
+.btn-lg {
+  margin: 10px 0;
+}
+
+.sub-list {
+  margin-right: 10px;
+}
+
 .grumpy-holder {
   text-align: center;
 }
@@ -62,12 +70,30 @@
   border: 1px solid black;
 }
 
-.bucket-list {
-  margin-bottom: 15px;
+.keypair {
+  margin-top: 20px;
+}
+
+.credentials--username, .credentials--password {
+  padding: 0 15px;
+  margin-top: 10px;
+}
+
+.bucket-create {
+  padding: 10px 0;
+}
+
+.bucket-btn--create {
+  margin-left: 25px;
+}
+
+.bucket-create--successful {
+  margin-top: 10px;
+  display: none;
 }
 
 .new-bucket-name {
   width: 200px;
   padding: 5px 10px;
-  margin-left: 15px;
+  margin-bottom: 10px;
 }

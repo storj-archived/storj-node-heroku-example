@@ -65,6 +65,7 @@
 
     <hr>
 
+    <!-- tutorial start -->
     <div class="container storj-methods">
       <div class="row grumpy-holder">
         <img src="" alt="Goal: Upload grumpy.jpg into Storj bucket and download grump.jpg from Storj bucket and display image here" class="grumpy">
@@ -73,127 +74,135 @@
       <hr>
 
       <!-- Key Pair -->
+      <h3>1. Key Pair</h3>
+      <div class="row">
+        <div class="col-xs-4">
+          <span class="sub-list">a.</span>
+          <button class="keypair-btn--generate btn btn-lg btn-primary">
+            Generate Key Pair
+          </button>
+        </div>
+        <div class="col-xs-8">
+          <div class="row keypair">
+            Key pair:
+            <span><!-- "KEY_PAIR" --></span>
+          </div>
+        </div>
+      </div>
       <div class="row">
         <div class="col-xs-12">
-          <h3>1. Key Pair</h3>
-          <div class="row">
-            <div class="col-xs-3">
-              <button class="btn btn-lg btn-primary">Retrieve / Generate</button>
-            </div>
-            <div class="col-xs-6">
-              <div class="row">Key pair: "KEY_PAIR"</div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-xs-12 spacer">
-              "Enter explanation and link to how to generate keypair here"
-            </div>
-          </div>
+          <span class="sub-list">b.</span>
+          <button class="keypair-btn--retrieve btn btn-lg btn-primary">
+            Retrieve Key Pair
+          </button>
         </div>
       </div>
 
       <hr>
 
       <!-- Authentication -->
-      <div class="row">
-        <div class="col-xs-12">
-          <h3>2. Login</h3>
-          <div class="row">
-            <div class="col-xs-3">
-              <button class="btn btn-lg btn-primary">Show credentials</button>
-            </div>
-            <div class="col-xs-9">
-              <div class="row">Username: "STORJ_EMAIL"</div>
-              <div class="row">Password: "STORJ_PASSWORD"</div>
-            </div>
+      <h3>2. Authentication</h3>
+      <div class="row credentials">
+        <div class="col-xs-4">
+          <span class="sub-list">a.</span>
+          <button class="credentials-btn--show btn btn-lg btn-primary">
+            Show Credentials
+          </button>
+        </div>
+        <div class="col-xs-8">
+          <div class="row credentials--username">
+            Username: <!-- "STORJ_EMAIL" -->
           </div>
-          <div class="spacer"></div>
-          <div class="row">
-            <div class="col-xs-3">
-              <button class="btn btn-lg btn-primary">Authenticate</button>
-            </div>
-            <div class="col-xs-9 authentication-result">
-              <div class="row">
-                Authentication
-                <span class="authentication__good">successful</span>
-                <span class="authentication__bad">failed</span>
-              </div>
-            </div>
+          <div class="row credentials--password">
+            Password: <!-- "STORJ_PASSWORD" -->
           </div>
+        </div>
+      </div>
+      <div class="row authenticate">
+        <div class="col-xs-4">
+          <span class="sub-list">b.</span>
+          <button class="auth-btn btn btn-lg btn-primary">
+            Authenticate
+          </button>
+        </div>
+        <div class="col-xs-8 auth-result spacer">
+          Authentication
+          <!--
+          <span class="auth-result--good">successful</span>
+          <span class="auth-result--fail">failed</span>
+          -->
         </div>
       </div>
 
       <hr>
 
       <!-- Buckets -->
+      <h3>3. Buckets</h3>
       <div class="row">
-        <div class="col-xs-12">
-          <h3>3. Buckets</h3>
-          <div class="row bucket-list">
-            <div class="col-xs-12">
-              <h4>Your Buckets</h4>
-              "BUCKET_LIST"
-            </div>
-          </div>
+        <div class="col-xs-4">
+          <span class="sub-list">a.</span>
+          <button class="btn btn-lg btn-primary">
+            List Buckets
+          </button>
         </div>
-        <div class="row">
-          <div class="col-xs-3">
-            <input class="new-bucket-name" type="text" placeholder="Enter bucket name" />
-          </div>
-          <div class="col-xs-9">
-            <button class="btn btn-md btn-primary">Create Bucket</button>
-          </div>
+        <div class="col-xs-6 bucket-list spacer">
+          Buckets: <!-- BUCKETS -->
+        </div>
+      </div>
+      <div class="row bucket-create">
+        <div class="col-xs-4">
+          <span class="sub-list">b.</span>
+          <input class="new-bucket-name" type="text" placeholder="Enter bucket name" />
+          <button class="bucket-btn--create btn btn-lg btn-primary">
+            Create Bucket
+          </button>
+        </div>
+        <div class="col-xs-8 bucket-create--successful">
+          Bucket created
         </div>
       </div>
 
       <hr>
 
       <!-- Files -->
+      <h3>4. Files</h3>
       <div class="row">
-        <div class="col-xs-12">
-          <h3>4. Files</h3>
-          <div class="row uploaded-file-list">
-            <div class="col-xs-12">
-              <h4>Uploaded Files</h4>
-              "UPLOADED FILES"
-            </div>
-          </div>
-
-          <div class="spacer"></div>
-
-          <div class="row upload-file">
-            <div class="col-xs-12">
-              <h4>Upload Files</h4>
-              <div class="row">
-                <div class="col-xs-3">
-                  "FILE LIST"
-                </div>
-                <div class="col-xs-6">
-                  <button class="btn btn-md btn-primary">Upload file(s)</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="spacer"></div>
-
-          <div class="row download-file">
-            <div class="col-xs-12">
-              <h4>Download File</h4>
-              <div class="row">
-                <div class="col-xs-3">
-                  "DOWNLOADED FILE"
-                </div>
-                <div class="col-xs-6">
-                  <button class="btn btn-md btn-primary">Download file</button>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="col-xs-4">
+          <span class="sub-list">a.</span>
+          <button class="files__list-btn btn btn-lg btn-primary">
+            List Files in Buckets
+          </button>
+        </div>
+        <div class="col-xs-8 files__list spacer">
+          <!-- FILES -->
         </div>
       </div>
-    </div>
 
+      <div class="row">
+        <div class="col-xs-4 files__upload">
+          <span class="sub-list">b.</span>
+          <button class="files__upload-btn btn btn-lg btn-primary">
+            Upload File
+          </button>
+        </div>
+        <div class="col-xs-8 spacer">
+          <!-- FILE TO UPLOAD -->
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-4">
+          <span class="sub-list">c.</span>
+          <button class="download-file-btn btn btn-lg btn-primary">
+            Download Files
+          </button>
+        </div>
+        <div class="col-xs-8">
+          <!-- "DOWNLOADED FILE FROM BUCKET" -->
+        </div>
+      </div>
+    <!-- tutorial end -->
     <hr>
+
   </body>
 </html>
