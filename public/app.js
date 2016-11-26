@@ -9,6 +9,26 @@ $(document).ready(function() {
     $.ajax({
       method: 'GET',
       url: '/keypair/generate'
+    }).done(function(data) {
+      console.log('Generated key pair ', data);
+      $('.keypair-generated').text('Key Pair generated!');
+    })
+  });
+
+  // Retrieve keypair
+  $('.keypair-btn--retrieve').on('click', function(event) {
+    event.preventDefault();
+    console.log('Retrieve Key Pair button clicked');
+    $.ajax({
+      method: 'GET',
+      url: '/keypair/retrieve'
+    }).done(function(data) {
+      console.log('Key pair(s) retrieved', data);
+      data.forEach(function(datum) {
+        const keyItem = document.createElement('li');
+        $(keyItem).text(datum.key);
+        $('.keypair-public').append(keyItem);
+      });
     });
   });
 
