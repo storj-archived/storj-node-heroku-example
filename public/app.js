@@ -24,11 +24,15 @@ $(document).ready(function() {
       url: '/keypair/retrieve'
     }).done(function(data) {
       console.log('Key pair(s) retrieved', data);
-      data.forEach(function(datum) {
-        const keyItem = document.createElement('li');
-        $(keyItem).text(datum.key);
-        $('.keypair-public').append(keyItem);
-      });
+      if (data.length <= 0) {
+        $('.keypair-retrieved').html('No keys retrieved')
+      } else {
+        data.forEach(function(datum) {
+          const keyItem = document.createElement('li');
+          $(keyItem).text(datum.key);
+          $('.keypair-public').append(keyItem);
+        });
+      }
     });
   });
 
