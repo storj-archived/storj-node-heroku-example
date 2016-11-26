@@ -68,11 +68,13 @@
     <!-- tutorial start -->
     <div class="container storj-methods">
       <div class="row grumpy-holder">
-        <img src="" alt="Goal: Upload grumpy.jpg into Storj bucket and download grump.jpg from Storj bucket and display image here" class="grumpy">
+        <img src="" alt="Goal: Upload grumpy.jpg into Storj bucket, download grump.jpg from Storj bucket, display downloaded image here"
+        class="grumpy-pic">
       </div>
 
       <hr>
 
+<<<<<<< HEAD
       <!-- Key Pair -->
       <h3>1. Key Pair</h3>
       <div class="row">
@@ -107,6 +109,10 @@
 
       <!-- Authentication -->
       <h3>2. Authentication</h3>
+=======
+      <!-- Basic Authentication -->
+      <h3>Basic Authentication</h3>
+>>>>>>> solution
       <div class="row credentials">
         <div class="col-xs-4">
           <span class="sub-list">a.</span>
@@ -116,10 +122,10 @@
         </div>
         <div class="col-xs-8">
           <div class="row credentials--username">
-            Username: <!-- "STORJ_EMAIL" -->
+            <!-- STORJ_EMAIL -->
           </div>
           <div class="row credentials--password">
-            Password: <!-- "STORJ_PASSWORD" -->
+            <!-- STORJ_PASSWORD -->
           </div>
         </div>
       </div>
@@ -127,7 +133,7 @@
         <div class="col-xs-4">
           <span class="sub-list">b.</span>
           <button class="auth-btn btn btn-lg btn-primary">
-            Authenticate
+            Authenticate (Basic)
           </button>
         </div>
         <div class="col-xs-8 auth-result spacer">
@@ -137,19 +143,49 @@
 
       <hr>
 
-      <!-- Buckets -->
-      <h3>3. Buckets</h3>
+      <!-- Key Pair -->
+      <h3>Key Pair</h3>
       <div class="row">
         <div class="col-xs-4">
           <span class="sub-list">a.</span>
-          <button class="btn btn-lg btn-primary">
-            List Buckets
+          <button class="keypair-btn--generate btn btn-lg btn-primary">
+            Generate Key Pair
           </button>
         </div>
-        <div class="col-xs-6 bucket-list spacer">
-          Buckets: <!-- BUCKETS -->
+        <div class="col-xs-8">
+          <div class="keypair-generated spacer"></div>
         </div>
       </div>
+      <div class="row">
+        <div class="col-xs-4">
+          <span class="sub-list">b.</span>
+          <button class="keypair-btn--retrieve btn btn-lg btn-primary">
+            Retrieve Key Pair
+          </button>
+        </div>
+        <div class="col-xs-8">
+          <div class="keypair-retrieved spacer">
+            <span class="keypair-retrieved--success"></span>
+            <ul class="keypair-public">
+              <!-- "KEY_PAIR" -->
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-4">
+          <span class="sub-list">c.</span>
+          <button class="keypair-btn--authenticate btn btn-lg btn-primary">
+            Authenticate (KeyPair)
+          </button>
+        </div>
+        <div class="col-xs-8 keypair-authenticated spacer"></div>
+      </div>
+
+      <hr>
+
+      <!-- Buckets -->
+      <h3>Buckets</h3>
       <div class="row bucket-create">
         <div class="col-xs-4">
           <span class="sub-list">b.</span>
@@ -162,43 +198,52 @@
           <!-- BUCKET CREATED -->
         </div>
       </div>
+      <div class="row">
+        <div class="col-xs-4">
+          <span class="sub-list">a.</span>
+          <button class="bucket-btn--retrieve btn btn-lg btn-primary">
+            Retrieve Buckets
+          </button>
+        </div>
+        <div class="col-xs-6 buckets-retrieved spacer">
+          <!-- BUCKETS -->
+        </div>
+      </div>
 
       <hr>
 
       <!-- Files -->
-      <h3>4. Files</h3>
-      <div class="row">
-        <div class="col-xs-4">
-          <span class="sub-list">a.</span>
-          <button class="files__list-btn btn btn-lg btn-primary">
-            List Files in Buckets
-          </button>
-        </div>
-        <div class="col-xs-8 files__list spacer">
-          <!-- FILES -->
-        </div>
-      </div>
-
+      <h3>Files</h3>
       <div class="row">
         <div class="col-xs-4 files__upload">
           <span class="sub-list">b.</span>
-          <button class="files__upload-btn btn btn-lg btn-primary">
+          <button class="files-btn--upload btn btn-lg btn-primary">
             Upload File
           </button>
         </div>
-        <div class="col-xs-8 spacer">
+        <div class="col-xs-8 files-upload spacer">
           <!-- FILE TO UPLOAD -->
         </div>
       </div>
-
+      <div class="row">
+        <div class="col-xs-4">
+          <span class="sub-list">a.</span>
+          <button class="files-btn--list btn btn-lg btn-primary">
+            List Files in Buckets
+          </button>
+        </div>
+        <div class="col-xs-8 files-list spacer">
+          <!-- FILES -->
+        </div>
+      </div>
       <div class="row">
         <div class="col-xs-4">
           <span class="sub-list">c.</span>
-          <button class="download-file-btn btn btn-lg btn-primary">
+          <button class="files-btn--download btn btn-lg btn-primary">
             Download Files
           </button>
         </div>
-        <div class="col-xs-8">
+        <div class="col-xs-8 files-downloaded spacer">
           <!-- "DOWNLOADED FILE FROM BUCKET" -->
         </div>
       </div>
