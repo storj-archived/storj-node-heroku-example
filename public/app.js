@@ -153,6 +153,9 @@ $(document).ready(function() {
   $('.files-btn--list').on('click', function(event) {
     event.preventDefault();
     console.log('List Files in Bucket button clicked');
+    $('.files-list')
+      .html('Retrieving files . . .')
+      .css('color', 'orange');
     $.ajax({
       method: 'GET',
       url: '/files/list'
@@ -163,8 +166,12 @@ $(document).ready(function() {
       } else {
         for (var key in bucketsWithFiles) {
           var bucketName = document.createElement('div');
-          $(bucketName).text(`Bucket: ${key}`).css('font-weight', '700');
-          $('.files-list').append($(bucketName));
+          $(bucketName)
+            .html(`Bucket: ${key}`)
+            .css('font-weight', '700');
+          $('.files-list')
+            .html($(bucketName))
+            .css('color', 'black');
 
           var bucketFilesList = document.createElement('ul');
           $(bucketName).append(bucketFilesList);
@@ -172,7 +179,9 @@ $(document).ready(function() {
           bucketsWithFiles[key].forEach(function(bucketFile) {
             console.log('file', bucketFile);
             var file = document.createElement('li');
-            $(file).text(bucketFile.filename).css('font-weight', '300');
+            $(file)
+              .html(bucketFile.filename)
+              .css('font-weight', '300');
             $(bucketFilesList).append(file);
           })
         }
