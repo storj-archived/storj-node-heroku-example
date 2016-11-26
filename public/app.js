@@ -9,8 +9,8 @@ $(document).ready(function() {
     $.ajax({
       method: 'GET',
       url: '/keypair/generate'
-    }).done(function(data) {
-      console.log('Generated key pair ', data);
+    }).done(function(keypair) {
+      console.log('Generated key pair ', keypair);
       $('.keypair-generated').text('Key Pair generated!');
     })
   });
@@ -22,14 +22,14 @@ $(document).ready(function() {
     $.ajax({
       method: 'GET',
       url: '/keypair/retrieve'
-    }).done(function(data) {
-      console.log('Key pair(s) retrieved', data);
-      if (data.length <= 0) {
+    }).done(function(keypairs) {
+      console.log('Key pair(s) retrieved', keypairs);
+      if (keypairs.length <= 0) {
         $('.keypair-retrieved').html('No keys retrieved')
       } else {
-        data.forEach(function(datum) {
+        keypairs.forEach(function(keypair) {
           const keyItem = document.createElement('li');
-          $(keyItem).text(datum.key);
+          $(keyItem).text(keypair.key);
           $('.keypair-public').append(keyItem);
         });
       }
@@ -43,9 +43,9 @@ $(document).ready(function() {
     $.ajax({
       method: 'GET',
       url: '/user/retrieve'
-    }).done(function(data) {
-      $('.credentials--username').append(data.email);
-      $('.credentials--password').append(data.password);
+    }).done(function(credentials) {
+      $('.credentials--username').append(credentials.email);
+      $('.credentials--password').append(credentials.password);
     })
   })
 
@@ -56,8 +56,8 @@ $(document).ready(function() {
     $.ajax({
       method: 'GET',
       url: '/user/authenticate/user-pass'
-    }).done(function(data) {
-      if (data === 'successful') {
+    }).done(function(result) {
+      if (result === 'successful') {
         $('.auth-result').html('Authentication successful!')
       }
     })
@@ -70,16 +70,64 @@ $(document).ready(function() {
     $.ajax({
       method: 'GET',
       url: '/buckets/retrieve'
-    }).done(function(data) {
-      if (data.length <= 0) {
+    }).done(function(buckets) {
+      if (buckets.length <= 0) {
         $('.buckets-retrieved').html('No buckets');
       } else {
-        data.forEach(function(datum) {
-          console.log(datum)
+        buckets.forEach(function(bucket) {
+          console.log(bucket)
           const bucketItem = document.createElement('li');
-          $(bucketItem).text(datum.name);
+          $(bucketItem).text(`Name: ${bucket.name}, id: ${bucket.id}`);
           $('.buckets-retrieved--list').append(bucketItem);
         })
+      }
+    })
+  })
+
+  // Create bucket
+  $('.bucket-btn--create').on('click', function(event) {
+    event.preventDefault();
+    const newBucketName = $('.new-bucket-name').val()
+    if (!newBucketName) {
+      return console.log('Need to enter bucket name');
+    }
+    $.ajax({
+      method: 'POST',
+      url: '/buckets/create',
+      data: { name: newBucketName }
+    }).done(function(bucket) {
+      console.log('Bucket created', bucket);
+      $('.bucket-created').text(`Bucket ${bucket.name} created!`);
+      $('.new-bucket-name').val('');
+    })
+  })
+
+  // List files in bucket
+  $('.files-btn--list').on('click', function(event) {
+    event.preventDefault();
+    $.ajax({
+      method: 'GET',
+      url: '/files/retrieve'
+    }).done(function(bucketsWithFiles) {
+      console.log(bucketsWithFiles)
+      if (!bucketsWithFiles) {
+        $('.files-list').html('No files in buckets')
+      } else {
+        for (let key in bucketsWithFiles) {
+          const bucketName = document.createElement('div');
+          $(bucketName).text(key).css('font-weight', '700')
+          $('.files-list').append($(bucketName));
+
+          const bucketFilesList = document.createElement('ul');
+          $(bucketName).append(bucketFilesList);
+
+          bucketsWithFiles[key].forEach(function(bucketFile) {
+            console.log('file', bucketFile)
+            const file = document.createElement('li');
+            $(file).text(bucketFile.filename).css('font-weight', '300');
+            $(bucketFilesList).append(file);
+          })
+        }
       }
     })
   })

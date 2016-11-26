@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const fs = require('fs');
 const async = require('async');
+const bodyParser = require('body-parser');
 const path = require('path');
 const localAssetsDir = __dirname + '/public';
 
@@ -20,6 +21,8 @@ let client;
 app.set('port', (process.env.PORT || 5000));
 
 app.use(express.static(__dirname + '/public'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 /* Endpoints */
 
@@ -80,6 +83,54 @@ app.get('/buckets/retrieve', function(req, res) {
       return console.log('error', err.message);
     }
     res.status(200).send(buckets);
+  })
+})
+
+// Create bucket
+app.post('/buckets/create', function(req, res) {
+  console.log(req.body)
+  const bucketInfo = {
+    name: req.body.name,
+    storage: 30,
+    transfer: 10
+  };
+  client.createBucket(bucketInfo, function(err, bucket) {
+    if (err) {
+      return console.log('error', err.message);
+    }
+    res.status(200).send(bucket);
+  })
+})
+
+// List files in buckets
+app.get('/files/retrieve', function(req, res) {
+  const bucketFiles = {};
+
+  client.getBuckets(function(err, buckets) {
+    if (err) {
+      return console.log('error', err.message);
+    }
+
+    async.each(buckets, function(bucket, callback) {
+      console.log('bucket', bucket.id)
+      client.listFilesInBucket(bucket.id, function(err, files) {
+        if (err) {
+          return callback(err);
+        }
+        console.log('files', files)
+
+        bucketFiles[bucket.name] = files;
+        callback(null);
+      })
+    }, function(err) {
+      if (err) {
+        console.log('error')
+      } else {
+        console.log('bucketFiles', bucketFiles);
+        res.status(200).send(bucketFiles);
+      }
+    })
+
   })
 })
 
