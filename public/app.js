@@ -1,40 +1,7 @@
 $(document).ready(function() {
   // All jQuery/JavaScript code will go in here
   console.log('jquery ready')
-
-  // Generate keypair
-  $('.keypair-btn--generate').on('click', function(event) {
-    event.preventDefault();
-    console.log('Generate Key Pair button clicked');
-    $.ajax({
-      method: 'GET',
-      url: '/keypair/generate'
-    }).done(function(keypair) {
-      console.log('Generated key pair ', keypair);
-      $('.keypair-generated').text('Key Pair generated!');
-    })
-  });
-
-  // Retrieve keypair
-  $('.keypair-btn--retrieve').on('click', function(event) {
-    event.preventDefault();
-    console.log('Retrieve Key Pair button clicked');
-    $.ajax({
-      method: 'GET',
-      url: '/keypair/retrieve'
-    }).done(function(keypairs) {
-      console.log('Key pair(s) retrieved', keypairs);
-      if (keypairs.length <= 0) {
-        $('.keypair-retrieved').html('No keys retrieved')
-      } else {
-        keypairs.forEach(function(keypair) {
-          const keyItem = document.createElement('li');
-          $(keyItem).text(keypair.key);
-          $('.keypair-public').append(keyItem);
-        });
-      }
-    });
-  });
+  var grumpyPicId;
 
   // Get client info
   $('.credentials-btn--show').on('click', function(event) {
@@ -44,8 +11,8 @@ $(document).ready(function() {
       method: 'GET',
       url: '/user/retrieve'
     }).done(function(credentials) {
-      $('.credentials--username').append(credentials.email);
-      $('.credentials--password').append(credentials.password);
+      $('.credentials--username').html(`Username: ${credentials.email}`);
+      $('.credentials--password').html(`Password: ${credentials.password}`);
     })
   })
 
@@ -58,7 +25,79 @@ $(document).ready(function() {
       url: '/user/authenticate/user-pass'
     }).done(function(result) {
       if (result === 'successful') {
-        $('.auth-result').html('Authentication successful!')
+        $('.auth-result')
+          .html('Authentication with basic auth successful!')
+          .css('color', 'green');
+      } else {
+        $('.auth-result')
+          .html('Authentication failed')
+          .css('color', 'red');
+      }
+    })
+  })
+
+  // Generate keypair
+  $('.keypair-btn--generate').on('click', function(event) {
+    event.preventDefault();
+    console.log('Generate Key Pair button clicked');
+    $.ajax({
+      method: 'GET',
+      url: '/keypair/generate'
+    }).done(function(keypair) {
+      console.log('Generated key pair ', keypair);
+      $('.keypair-generated')
+        .html(`Key Pair generated! ${keypair}`)
+        .css('color', 'green');
+    }).error(function(err) {
+      console.log('Key pair error', err);
+      $('.keypair-generated')
+        .html(`Key Pair not generated, reason: ${err.responseText}`)
+        .css('color', 'red');
+    })
+  });
+
+  // Retrieve keypair
+  $('.keypair-btn--retrieve').on('click', function(event) {
+    event.preventDefault();
+    console.log('Retrieve Key Pair button clicked');
+    $.ajax({
+      method: 'GET',
+      url: '/keypair/retrieve'
+    }).done(function(keypairs) {
+      console.log('Key pair(s) retrieved', keypairs);
+      if (!keypairs.length) {
+        $('.keypair-retrieved').html('No keys retrieved')
+      } else {
+        $('.keypair-retrieved--success')
+          .html('Keys Retrieved:')
+          .css('color', 'green');
+
+        // Create an li element for each keypair and append to ul
+        keypairs.forEach(function(keypair) {
+          var keyItem = document.createElement('li');
+          $(keyItem).text(keypair.key);
+          $('.keypair-public').append(keyItem);
+        });
+      }
+    });
+  });
+
+  // Authenticate with keypair
+  $('.keypair-btn--authenticate').on('click', function(event) {
+    event.preventDefault();
+    console.log('Authenticate (KeyPair) button clicked');
+    $.ajax({
+      method: 'GET',
+      url: '/keypair/authenticate'
+    }).done(function(authenticated) {
+      if (authenticated === 'successful') {
+        $('.keypair-authenticated')
+          .html('Authenticated with keypair!')
+          .css('color', 'green');
+      } else {
+        $('.keypair.authenticated')
+          .html('Keypair authentication failed')
+          .css('color', 'red');
       }
     })
   })
@@ -67,6 +106,9 @@ $(document).ready(function() {
   $('.bucket-btn--retrieve').on('click', function(event) {
     event.preventDefault();
     console.log('List Buckets button clicked');
+    $('.buckets-retrieved')
+      .html('Retrieving buckets . . .')
+      .css('color', 'orange');
     $.ajax({
       method: 'GET',
       url: '/buckets/retrieve'
@@ -75,10 +117,15 @@ $(document).ready(function() {
         $('.buckets-retrieved').html('No buckets');
       } else {
         buckets.forEach(function(bucket) {
+          $('.buckets-retrieved')
+            .text('Buckets: ')
+            .css('color', 'black')
           console.log(bucket)
-          const bucketItem = document.createElement('li');
+          var bucketList = document.createElement('ul');
+          $('.buckets-retrieved').append($(bucketList));
+          var bucketItem = document.createElement('li');
           $(bucketItem).text(`Name: ${bucket.name}, id: ${bucket.id}`);
-          $('.buckets-retrieved--list').append(bucketItem);
+          $(bucketList).append(bucketItem);
         })
       }
     })
@@ -87,7 +134,7 @@ $(document).ready(function() {
   // Create bucket
   $('.bucket-btn--create').on('click', function(event) {
     event.preventDefault();
-    const newBucketName = $('.new-bucket-name').val()
+    var newBucketName = $('.new-bucket-name').val()
     if (!newBucketName) {
       return console.log('Need to enter bucket name');
     }
@@ -105,25 +152,26 @@ $(document).ready(function() {
   // List files in bucket
   $('.files-btn--list').on('click', function(event) {
     event.preventDefault();
+    console.log('List Files in Bucket button clicked');
     $.ajax({
       method: 'GET',
-      url: '/files/retrieve'
+      url: '/files/list'
     }).done(function(bucketsWithFiles) {
-      console.log(bucketsWithFiles)
+      console.log(bucketsWithFiles);
       if (!bucketsWithFiles) {
-        $('.files-list').html('No files in buckets')
+        $('.files-list').html('No files in buckets');
       } else {
-        for (let key in bucketsWithFiles) {
-          const bucketName = document.createElement('div');
-          $(bucketName).text(key).css('font-weight', '700')
+        for (var key in bucketsWithFiles) {
+          var bucketName = document.createElement('div');
+          $(bucketName).text(`Bucket: ${key}`).css('font-weight', '700');
           $('.files-list').append($(bucketName));
 
-          const bucketFilesList = document.createElement('ul');
+          var bucketFilesList = document.createElement('ul');
           $(bucketName).append(bucketFilesList);
 
           bucketsWithFiles[key].forEach(function(bucketFile) {
-            console.log('file', bucketFile)
-            const file = document.createElement('li');
+            console.log('file', bucketFile);
+            var file = document.createElement('li');
             $(file).text(bucketFile.filename).css('font-weight', '300');
             $(bucketFilesList).append(file);
           })
@@ -131,4 +179,49 @@ $(document).ready(function() {
       }
     })
   })
+
+  // Upload file
+  $('.files-btn--upload').on('click', function(event) {
+    event.preventDefault();
+    console.log('Upload file button clicked');
+    $('.files-upload')
+      .html('File upload in process . . .')
+      .css('color', 'orange');
+    $.ajax({
+      method: 'GET',
+      url: '/files/upload'
+    }).done(function(file) {
+      console.log('upload', file)
+      $('.files-upload')
+        .html(`File ${file.filename} uploaded to ${file.bucket}!`)
+        .css('color', 'green');
+    }).error(function(err) {
+      $('.files-upload')
+        .html(`Error occurred: ${err.statusText}`)
+        .css('color', 'red');
+    })
+  })
+
+  // Download file
+  $('.files-btn--download').on('click', function(event) {
+    event.preventDefault();
+    console.log('Download Files button clicked');
+    $('.files-downloaded')
+      .html('Downloading in process . . .')
+      .css('color', 'orange');
+    $.ajax({
+      method: 'GET',
+      url: '/files/download'
+    }).done(function(download) {
+      if (download === 'successful') {
+        $('.files-downloaded')
+          .html('Download finished! Scroll up and see a grumpy cat!')
+          .css('color', 'green');
+
+        // Set grumpy pic
+        $('.grumpy-pic').attr('src', './grumpy-dwnld.jpg')
+      }
+    })
+  })
+
 });

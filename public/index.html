@@ -68,13 +68,46 @@
     <!-- tutorial start -->
     <div class="container storj-methods">
       <div class="row grumpy-holder">
-        <img src="" alt="Goal: Upload grumpy.jpg into Storj bucket and download grump.jpg from Storj bucket and display image here" class="grumpy">
+        <img src="" alt="Goal: Upload grumpy.jpg into Storj bucket, download grump.jpg from Storj bucket, display downloaded image here"
+        class="grumpy-pic">
+      </div>
+
+      <hr>
+
+      <!-- Basic Authentication -->
+      <h3>Basic Authentication</h3>
+      <div class="row credentials">
+        <div class="col-xs-4">
+          <span class="sub-list">a.</span>
+          <button class="credentials-btn--show btn btn-lg btn-primary">
+            Show Credentials
+          </button>
+        </div>
+        <div class="col-xs-8">
+          <div class="row credentials--username">
+            <!-- STORJ_EMAIL -->
+          </div>
+          <div class="row credentials--password">
+            <!-- STORJ_PASSWORD -->
+          </div>
+        </div>
+      </div>
+      <div class="row authenticate">
+        <div class="col-xs-4">
+          <span class="sub-list">b.</span>
+          <button class="auth-btn btn btn-lg btn-primary">
+            Authenticate (Basic)
+          </button>
+        </div>
+        <div class="col-xs-8 auth-result spacer">
+          <!-- AUTHENTICATION RESULT -->
+        </div>
       </div>
 
       <hr>
 
       <!-- Key Pair -->
-      <h3>1. Key Pair</h3>
+      <h3>Key Pair</h3>
       <div class="row">
         <div class="col-xs-4">
           <span class="sub-list">a.</span>
@@ -83,7 +116,7 @@
           </button>
         </div>
         <div class="col-xs-8">
-          <div class="row keypair-generated spacer"></div>
+          <div class="keypair-generated spacer"></div>
         </div>
       </div>
       <div class="row">
@@ -95,64 +128,27 @@
         </div>
         <div class="col-xs-8">
           <div class="keypair-retrieved spacer">
-            Retrieved:
+            <span class="keypair-retrieved--success"></span>
             <ul class="keypair-public">
               <!-- "KEY_PAIR" -->
             </ul>
           </div>
         </div>
       </div>
-
-      <hr>
-
-      <!-- Authentication -->
-      <h3>2. Authentication</h3>
-      <div class="row credentials">
+      <div class="row">
         <div class="col-xs-4">
-          <span class="sub-list">a.</span>
-          <button class="credentials-btn--show btn btn-lg btn-primary">
-            Show Credentials
+          <span class="sub-list">c.</span>
+          <button class="keypair-btn--authenticate btn btn-lg btn-primary">
+            Authenticate (KeyPair)
           </button>
         </div>
-        <div class="col-xs-8">
-          <div class="row credentials--username">
-            Username: <!-- "STORJ_EMAIL" -->
-          </div>
-          <div class="row credentials--password">
-            Password: <!-- "STORJ_PASSWORD" -->
-          </div>
-        </div>
-      </div>
-      <div class="row authenticate">
-        <div class="col-xs-4">
-          <span class="sub-list">b.</span>
-          <button class="auth-btn btn btn-lg btn-primary">
-            Authenticate
-          </button>
-        </div>
-        <div class="col-xs-8 auth-result spacer">
-          <!-- AUTHENTICATION RESULT -->
-        </div>
+        <div class="col-xs-8 keypair-authenticated spacer"></div>
       </div>
 
       <hr>
 
       <!-- Buckets -->
-      <h3>3. Buckets</h3>
-      <div class="row">
-        <div class="col-xs-4">
-          <span class="sub-list">a.</span>
-          <button class="bucket-btn--retrieve btn btn-lg btn-primary">
-            Retrieve Buckets
-          </button>
-        </div>
-        <div class="col-xs-6 buckets-retrieved spacer">
-          Buckets:
-          <ul class="buckets-retrieved--list">
-            <!-- BUCKETS -->
-          </ul>
-        </div>
-      </div>
+      <h3>Buckets</h3>
       <div class="row bucket-create">
         <div class="col-xs-4">
           <span class="sub-list">b.</span>
@@ -165,23 +161,22 @@
           <!-- BUCKET CREATED -->
         </div>
       </div>
+      <div class="row">
+        <div class="col-xs-4">
+          <span class="sub-list">a.</span>
+          <button class="bucket-btn--retrieve btn btn-lg btn-primary">
+            Retrieve Buckets
+          </button>
+        </div>
+        <div class="col-xs-6 buckets-retrieved spacer">
+          <!-- BUCKETS -->
+        </div>
+      </div>
 
       <hr>
 
       <!-- Files -->
-      <h3>4. Files</h3>
-      <div class="row">
-        <div class="col-xs-4">
-          <span class="sub-list">a.</span>
-          <button class="files-btn--list btn btn-lg btn-primary">
-            List Files in Buckets
-          </button>
-        </div>
-        <div class="col-xs-8 files-list spacer">
-          <!-- FILES -->
-        </div>
-      </div>
-
+      <h3>Files</h3>
       <div class="row">
         <div class="col-xs-4 files__upload">
           <span class="sub-list">b.</span>
@@ -193,7 +188,17 @@
           <!-- FILE TO UPLOAD -->
         </div>
       </div>
-
+      <div class="row">
+        <div class="col-xs-4">
+          <span class="sub-list">a.</span>
+          <button class="files-btn--list btn btn-lg btn-primary">
+            List Files in Buckets
+          </button>
+        </div>
+        <div class="col-xs-8 files-list spacer">
+          <!-- FILES -->
+        </div>
+      </div>
       <div class="row">
         <div class="col-xs-4">
           <span class="sub-list">c.</span>
@@ -201,7 +206,7 @@
             Download Files
           </button>
         </div>
-        <div class="col-xs-8 files-downloaded">
+        <div class="col-xs-8 files-downloaded spacer">
           <!-- "DOWNLOADED FILE FROM BUCKET" -->
         </div>
       </div>
