@@ -64,7 +64,7 @@ $(document).ready(function() {
   })
 
   // List buckets
-  $('.bucket-list-btn').on('click', function(event) {
+  $('.bucket-btn--retrieve').on('click', function(event) {
     event.preventDefault();
     console.log('List Buckets button clicked');
     $.ajax({
@@ -72,13 +72,13 @@ $(document).ready(function() {
       url: '/buckets/retrieve'
     }).done(function(data) {
       if (data.length <= 0) {
-        $('.buckets').html('No buckets');
+        $('.buckets-retrieved').html('No buckets');
       } else {
         data.forEach(function(datum) {
           console.log(datum)
           const bucketItem = document.createElement('li');
           $(bucketItem).text(datum.name);
-          $('.buckets').append(bucketItem);
+          $('.buckets-retrieved--list').append(bucketItem);
         })
       }
     })
