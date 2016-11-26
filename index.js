@@ -32,16 +32,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/user/retrieve', function(req, res) {
   console.log('Retrieving basic auth credentials');
   res.status(200).send(storjCredentials);
-})
+});
 
 // Authenticate with username/password
 app.get('/user/authenticate/user-pass', function(req, res) {
   client = storj.BridgeClient(api, { basicAuth: storjCredentials });
-  if (client) {
-    console.log('Logged in with basic auth');
-    res.status(200).send('successful')
-  }
-})
+  console.log('Logged in with basic auth');
+  res.status(200).send('successful')
+});
 
 // Generate key pair
 app.get('/keypair/generate', function(req, res) {
@@ -84,7 +82,7 @@ app.get('/keypair/retrieve', function(req, res) {
     // Send back key pair info to client
     res.status(200).send(keys)
   });
-})
+});
 
 // Authenticate with keypair
 app.get('/keypair/authenticate', function(req, res) {
@@ -94,11 +92,8 @@ app.get('/keypair/authenticate', function(req, res) {
 
   // Login using the keypair
   client = storj.BridgeClient(api, { keyPair: keypair });
-
-  if (client) {
-    console.log('Logged in with keypair');
-    res.status(200).send('successful');
-  }
+  console.log('Logged in with keypair');
+  res.status(200).send('successful');
 })
 
 // Create bucket
@@ -117,8 +112,8 @@ app.post('/buckets/create', function(req, res) {
     }
     console.log('Created bucket', bucket);
     res.status(200).send(bucket);
-  })
-})
+  });
+});
 
 // Get buckets
 app.get('/buckets/retrieve', function(req, res) {
@@ -128,12 +123,13 @@ app.get('/buckets/retrieve', function(req, res) {
     }
     console.log('Retrieved buckets', buckets);
     res.status(200).send(buckets);
-  })
-})
+  });
+});
 
 // Upload file to bucket
 app.get('/files/upload', function(req, res) {
-  console.log('Uploading file')
+  console.log('Uploading file');
+
   // Get first bucket that shows up (for demo purposes)
   // If you know what bucket you're gonig to put the file in, then use
   // that bucketId and skip client.getBuckets()
@@ -141,13 +137,17 @@ app.get('/files/upload', function(req, res) {
     if (err) {
       return console.log('error', err.message);
     }
+
     // Use the first bucket
     var bucketId = buckets[0].id;
     console.log('Uploading file to', bucketId);
+
     // Select the file to be uploaded
     var filepath = './public/grumpy.jpg';
+
     // Path to temporarily store encrypted version of file to be uploaded
     var tmppath = filepath + '.crypt';
+
     // Key ring to hold key used to interact with uploaded file
     // https://storj.github.io/core/KeyRing.html#KeyRing__anchor
     // storj.keyRing(<keyRingDir>, <passPhrase>)
@@ -163,12 +163,14 @@ app.get('/files/upload', function(req, res) {
       .pipe(fs.createWriteStream(tmppath))
       .on('finish', function() {
         console.log('Finished encrypting');
+
         // Create token for uploading to bucket by bucketId
         client.createToken(bucketId, 'PUSH', function(err, token) {
           if (err) {
             console.log('error', err.message);
           }
           console.log('Created token for file');
+
           // Store the file using the bucketId, token, and encrypted file
           client.storeFileInBucket(bucketId, token.token, tmppath,
             function(err, file) {
@@ -176,16 +178,25 @@ app.get('/files/upload', function(req, res) {
                 return console.log('error', err.message);
               }
               console.log('Stored file in bucket');
+
               // Save key for access to download file
               keyring.set(file.id, secret);
 
-              res.status(200).send(file);
-            })
-        })
-      })
+              // Delete tmp file
+              fs.unlink(tmppath, function(err) {
+                if (err) {
+                  return console.log(err);
+                }
+                console.log('Temporary encrypted file deleted');
+              })
 
-  })
-})
+              // Send file info to client
+              res.status(200).send(file);
+            });
+        });
+      });
+  });
+});
 
 // List files in buckets
 app.get('/files/list', function(req, res) {
@@ -203,50 +214,54 @@ app.get('/files/list', function(req, res) {
     // When all the files have been retrieved, send the bucketFiles obj
     // to the client
     async.each(buckets, function(bucket, callback) {
-      console.log('bucket', bucket.id)
+      console.log('bucket', bucket.id);
       client.listFilesInBucket(bucket.id, function(err, files) {
         if (err) {
           return callback(err);
         }
-        console.log('files', files)
-
+        console.log('files', files);
         bucketFiles[bucket.name] = files;
         callback(null);
       })
     }, function(err) {
       if (err) {
-        console.log('error')
+        console.log('error');
       } else {
         console.log('bucketFiles', bucketFiles);
         res.status(200).send(bucketFiles);
       }
-    })
-
-  })
-})
+    });
+  });
+});
 
 app.get('/files/download', function(req, res) {
   console.log('Getting file to download');
+
   // Get first bucket that shows up (for demo purposes)
-  // If you know what bucket you're gonig to put the file in, then just use
+  // If you know what bucket you're going to put the file in, then just use
   // that bucketId
   client.getBuckets(function(err, buckets) {
     if (err) {
       return console.log('error', err.message);
     }
+
     // Use the first bucket
     var bucketId = buckets[0].id;
     console.log('Got bucketId', bucketId);
-    // Get the fileId
+
+    // Get the fileId. If you already know the fileId you can skip
+    // client.listFilesInBucket()
     client.listFilesInBucket(bucketId, function(err, files) {
       if (err) {
         return console.log('error', err.message);
       }
-      var grumpyFile = files.filter(function(file) {
-        console.log('filllle', file.filename)
+
+      // Get grumpy file
+      var grumpyFile = files.find(function(file) {
         return file.filename.match('grumpy.jpg');
-      })[0];
+      });
       console.log('grumpy', grumpyFile);
+
       // Set fileId to grumpyFile id
       var fileId = grumpyFile.id;
       console.log('Got fileId', fileId);
@@ -259,6 +274,7 @@ app.get('/files/download', function(req, res) {
 
       // Where the downloaded file will be saved
       var target = fs.createWriteStream('./public/grumpy-dwnld.jpg');
+
       // Get key to download file
       console.log('Get key for fileId');
       var secret = keyring.get(fileId);
@@ -266,14 +282,6 @@ app.get('/files/download', function(req, res) {
       // Prepare to decrypt the encrypted file
       var decrypter = new storj.DecryptStream(secret);
       var received = 0;
-
-      // Handle Events emitted from file download stream
-      target.on('finish', function() {
-        console.log('Finished downloading file');
-        res.status(200).send('successful');
-      }).on('error', function(err) {
-        console.log('error', err.message);
-      })
 
       // Download the file
       console.log('Creating file stream');
@@ -283,6 +291,7 @@ app.get('/files/download', function(req, res) {
           return console.log('error', err.message);
         }
 
+        // Handle stream errors
         stream.on('error', function(err) {
           console.log('warn', 'Failed to download shard, reason: %s', [err.message]);
           // Delete the partial file
@@ -302,13 +311,18 @@ app.get('/files/download', function(req, res) {
         })).pipe(decrypter)
            .pipe(target);
       })
-    })
-  })
-})
+
+      // Handle Events emitted from file download stream
+      target.on('finish', function() {
+        console.log('Finished downloading file');
+        res.status(200).send('successful');
+      }).on('error', function(err) {
+        console.log('error', err.message);
+      });
+    });
+  });
+});
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
-
-// create key for interacting with file
-// save key in keyring to be used later on to retrieve file
