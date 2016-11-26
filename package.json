@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "async": "^2.0.1",
+    "body-parser": "^1.15.2",
     "express": "4.13.3",
     "storj-lib": "5.1.2",
     "storj-sugar": "0.1.6"
