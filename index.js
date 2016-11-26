@@ -15,7 +15,7 @@ const storjCredentials = {
   email: STORJ_EMAIL,
   password: STORJ_PASSWORD
 };
-const client = storj.BridgeClient(api, { basicAuth: storjCredentials });
+let client;
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -23,6 +23,7 @@ app.use(express.static(__dirname + '/public'));
 
 /* Endpoints */
 
+// Generate key pair
 app.get('/keypair/generate', function(req, res) {
 
   // Generate keypair
@@ -36,13 +37,15 @@ app.get('/keypair/generate', function(req, res) {
     }
 
     // Save the private key for using to login later
-    fs.appendFileSync('./.env', `STORJ_PRIVATE_KEY=${keypair.getPrivateKey()}`);
+    // fs.appendFileSync('./.env', `STORJ_PRIVATE_KEY=${keypair.getPrivateKey()}`);
+    fs.writeFileSync('./private.key', keypair.getPrivateKey());
 
     // Send back success to client
     res.status(200).send(keypair.getPublicKey());
   });
 });
 
+// Retrieve key pairs
 app.get('/keypair/retrieve', function(req, res) {
   client.getPublicKeys(function(err, keys) {
     if (err) {
@@ -59,8 +62,16 @@ app.get('/keypair/retrieve', function(req, res) {
   });
 })
 
+// Retrieve credentials
+app.get('/user/retrieve', function(req, res) {
+  res.status(200).send(storjCredentials);
+})
 
-
+// Authenticate with username/password
+app.get('/user/authenticate/user-pass', function(req, res) {
+  client = storj.BridgeClient(api, { basicAuth: storjCredentials });
+  if (client) res.status(200).send('successful')
+})
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));

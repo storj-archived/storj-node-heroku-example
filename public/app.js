@@ -36,4 +36,31 @@ $(document).ready(function() {
     });
   });
 
+  // Get client info
+  $('.credentials-btn--show').on('click', function(event) {
+    event.preventDefault();
+    console.log('Show Credentials button clicked');
+    $.ajax({
+      method: 'GET',
+      url: '/user/retrieve'
+    }).done(function(data) {
+      $('.credentials--username').append(data.email);
+      $('.credentials--password').append(data.password);
+    })
+  })
+
+  // Authenticate client
+  $('.auth-btn').on('click', function(event) {
+    event.preventDefault();
+    console.log('Authenticate button clicked');
+    $.ajax({
+      method: 'GET',
+      url: '/user/authenticate/user-pass'
+    }).done(function(data) {
+      if (data === 'successful') {
+        $('.auth-result').html('Authentication successful!')
+      }
+    })
+  })
+
 });
