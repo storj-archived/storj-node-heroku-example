@@ -13,7 +13,8 @@
     "async": "^2.0.1",
     "body-parser": "^1.15.2",
     "express": "4.13.3",
-    "storj-lib": "5.1.2"
+    "storj-lib": "5.1.2",
+    "through": "^2.3.8"
   },
   "repository": {
     "type": "git",
