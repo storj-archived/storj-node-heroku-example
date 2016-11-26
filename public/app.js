@@ -1,25 +1,27 @@
 $(document).ready(function() {
   // All jQuery/JavaScript code will go in here
-  console.log('jquery ready')
+  console.log('jquery ready');
   var grumpyPicId;
 
   // Get client info
   $('.credentials-btn--show').on('click', function(event) {
     event.preventDefault();
     console.log('Show Credentials button clicked');
+
     $.ajax({
       method: 'GET',
       url: '/user/retrieve'
     }).done(function(credentials) {
       $('.credentials--username').html(`Username: ${credentials.email}`);
       $('.credentials--password').html(`Password: ${credentials.password}`);
-    })
-  })
+    });
+  });
 
   // Authenticate client
   $('.auth-btn').on('click', function(event) {
     event.preventDefault();
     console.log('Authenticate button clicked');
+
     $.ajax({
       method: 'GET',
       url: '/user/authenticate/user-pass'
@@ -33,13 +35,14 @@ $(document).ready(function() {
           .html('Authentication failed')
           .css('color', 'red');
       }
-    })
-  })
+    });
+  });
 
   // Generate keypair
   $('.keypair-btn--generate').on('click', function(event) {
     event.preventDefault();
     console.log('Generate Key Pair button clicked');
+
     $.ajax({
       method: 'GET',
       url: '/keypair/generate'
@@ -53,20 +56,21 @@ $(document).ready(function() {
       $('.keypair-generated')
         .html(`Key Pair not generated, reason: ${err.responseText}`)
         .css('color', 'red');
-    })
+    });
   });
 
   // Retrieve keypair
   $('.keypair-btn--retrieve').on('click', function(event) {
     event.preventDefault();
     console.log('Retrieve Key Pair button clicked');
+
     $.ajax({
       method: 'GET',
       url: '/keypair/retrieve'
     }).done(function(keypairs) {
       console.log('Key pair(s) retrieved', keypairs);
       if (!keypairs.length) {
-        $('.keypair-retrieved').html('No keys retrieved')
+        $('.keypair-retrieved').html('No keys retrieved');
       } else {
         $('.keypair-retrieved--success')
           .html('Keys Retrieved:')
@@ -86,6 +90,7 @@ $(document).ready(function() {
   $('.keypair-btn--authenticate').on('click', function(event) {
     event.preventDefault();
     console.log('Authenticate (KeyPair) button clicked');
+
     $.ajax({
       method: 'GET',
       url: '/keypair/authenticate'
@@ -99,8 +104,8 @@ $(document).ready(function() {
           .html('Keypair authentication failed')
           .css('color', 'red');
       }
-    })
-  })
+    });
+  });
 
   // List buckets
   $('.bucket-btn--retrieve').on('click', function(event) {
@@ -109,27 +114,28 @@ $(document).ready(function() {
     $('.buckets-retrieved')
       .html('Retrieving buckets . . .')
       .css('color', 'orange');
+
     $.ajax({
       method: 'GET',
       url: '/buckets/retrieve'
     }).done(function(buckets) {
-      if (buckets.length <= 0) {
+      if (!buckets.length) {
         $('.buckets-retrieved').html('No buckets');
       } else {
         buckets.forEach(function(bucket) {
           $('.buckets-retrieved')
-            .text('Buckets: ')
+            .html('Buckets: ')
             .css('color', 'black')
-          console.log(bucket)
+          console.log(bucket);
           var bucketList = document.createElement('ul');
           $('.buckets-retrieved').append($(bucketList));
           var bucketItem = document.createElement('li');
-          $(bucketItem).text(`Name: ${bucket.name}, id: ${bucket.id}`);
+          $(bucketItem).html(`Name: ${bucket.name}, id: ${bucket.id}`);
           $(bucketList).append(bucketItem);
-        })
+        });
       }
-    })
-  })
+    });
+  });
 
   // Create bucket
   $('.bucket-btn--create').on('click', function(event) {
@@ -138,6 +144,7 @@ $(document).ready(function() {
     if (!newBucketName) {
       return console.log('Need to enter bucket name');
     }
+
     $.ajax({
       method: 'POST',
       url: '/buckets/create',
@@ -146,8 +153,8 @@ $(document).ready(function() {
       console.log('Bucket created', bucket);
       $('.bucket-created').text(`Bucket ${bucket.name} created!`);
       $('.new-bucket-name').val('');
-    })
-  })
+    });
+  });
 
   // List files in bucket
   $('.files-btn--list').on('click', function(event) {
@@ -156,6 +163,7 @@ $(document).ready(function() {
     $('.files-list')
       .html('Retrieving files . . .')
       .css('color', 'orange');
+
     $.ajax({
       method: 'GET',
       url: '/files/list'
@@ -183,11 +191,11 @@ $(document).ready(function() {
               .html(bucketFile.filename)
               .css('font-weight', '300');
             $(bucketFilesList).append(file);
-          })
+          });
         }
       }
-    })
-  })
+    });
+  });
 
   // Upload file
   $('.files-btn--upload').on('click', function(event) {
@@ -196,6 +204,7 @@ $(document).ready(function() {
     $('.files-upload')
       .html('File upload in process . . .')
       .css('color', 'orange');
+
     $.ajax({
       method: 'GET',
       url: '/files/upload'
@@ -208,8 +217,8 @@ $(document).ready(function() {
       $('.files-upload')
         .html(`Error occurred: ${err.statusText}`)
         .css('color', 'red');
-    })
-  })
+    });
+  });
 
   // Download file
   $('.files-btn--download').on('click', function(event) {
@@ -218,6 +227,7 @@ $(document).ready(function() {
     $('.files-downloaded')
       .html('Downloading in process . . .')
       .css('color', 'orange');
+
     $.ajax({
       method: 'GET',
       url: '/files/download'
@@ -230,7 +240,7 @@ $(document).ready(function() {
         // Set grumpy pic
         $('.grumpy-pic').attr('src', './grumpy-dwnld.jpg')
       }
-    })
-  })
+    });
+  });
 
 });
