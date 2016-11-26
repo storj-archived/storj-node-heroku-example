@@ -1,7 +1,7 @@
 {
-  "name": "node-js-getting-started",
+  "name": "storj-node-heroku-example",
   "version": "0.3.0",
-  "description": "A sample Node.js app using Express 4",
+  "description": "Example application using Storj and Node.js with Express 4",
   "engines": {
     "node": "6.9.1"
   },
@@ -17,12 +17,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/heroku/node-js-getting-started"
+    "url": "https://github.com/Storj/storj-node-heroku-example"
   },
   "keywords": [
     "node",
     "heroku",
-    "express"
+    "express",
+    "storj"
   ],
   "license": "MIT"
 }
