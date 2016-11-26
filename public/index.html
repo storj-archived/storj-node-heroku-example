@@ -83,18 +83,23 @@
           </button>
         </div>
         <div class="col-xs-8">
-          <div class="row keypair">
-            Key pair:
-            <span><!-- "KEY_PAIR" --></span>
-          </div>
+          <div class="row keypair-generated spacer"></div>
         </div>
       </div>
       <div class="row">
-        <div class="col-xs-12">
+        <div class="col-xs-4">
           <span class="sub-list">b.</span>
           <button class="keypair-btn--retrieve btn btn-lg btn-primary">
             Retrieve Key Pair
           </button>
+        </div>
+        <div class="col-xs-8">
+          <div class="keypair-retrieved spacer">
+            Retrieved:
+            <ul class="keypair-public">
+              <!-- "KEY_PAIR" -->
+            </ul>
+          </div>
         </div>
       </div>
 
@@ -126,11 +131,7 @@
           </button>
         </div>
         <div class="col-xs-8 auth-result spacer">
-          Authentication
-          <!--
-          <span class="auth-result--good">successful</span>
-          <span class="auth-result--fail">failed</span>
-          -->
+          <!-- AUTHENTICATION RESULT -->
         </div>
       </div>
 
@@ -157,8 +158,8 @@
             Create Bucket
           </button>
         </div>
-        <div class="col-xs-8 bucket-create--successful">
-          Bucket created
+        <div class="col-xs-8 bucket-created">
+          <!-- BUCKET CREATED -->
         </div>
       </div>
 
@@ -204,5 +205,6 @@
     <!-- tutorial end -->
     <hr>
 
+    <script src="app.js"></script>
   </body>
 </html>

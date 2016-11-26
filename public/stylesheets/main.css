@@ -87,9 +87,8 @@
   margin-left: 25px;
 }
 
-.bucket-create--successful {
+.bucket-created {
   margin-top: 10px;
-  display: none;
 }
 
 .new-bucket-name {
