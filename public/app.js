@@ -63,4 +63,24 @@ $(document).ready(function() {
     })
   })
 
+  // List buckets
+  $('.bucket-list-btn').on('click', function(event) {
+    event.preventDefault();
+    console.log('List Buckets button clicked');
+    $.ajax({
+      method: 'GET',
+      url: '/buckets/retrieve'
+    }).done(function(data) {
+      if (data.length <= 0) {
+        $('.buckets').html('No buckets');
+      } else {
+        data.forEach(function(datum) {
+          console.log(datum)
+          const bucketItem = document.createElement('li');
+          $(bucketItem).text(datum.name);
+          $('.buckets').append(bucketItem);
+        })
+      }
+    })
+  })
 });

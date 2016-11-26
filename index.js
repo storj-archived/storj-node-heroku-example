@@ -73,6 +73,16 @@ app.get('/user/authenticate/user-pass', function(req, res) {
   if (client) res.status(200).send('successful')
 })
 
+// Get buckets
+app.get('/buckets/retrieve', function(req, res) {
+  client.getBuckets(function(err, buckets) {
+    if (err) {
+      return console.log('error', err.message);
+    }
+    res.status(200).send(buckets);
+  })
+})
+
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
