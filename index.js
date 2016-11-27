@@ -116,12 +116,12 @@ app.post('/buckets/create', function(req, res) {
 });
 
 // Get buckets
-app.get('/buckets/retrieve', function(req, res) {
+app.get('/buckets/list', function(req, res) {
   client.getBuckets(function(err, buckets) {
     if (err) {
       return console.log('error', err.message);
     }
-    console.log('Retrieved buckets', buckets);
+    console.log('Buckets: ', buckets);
     res.status(200).send(buckets);
   });
 });

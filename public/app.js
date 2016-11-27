@@ -127,27 +127,27 @@ $(document).ready(function() {
   });
 
   // List buckets
-  $('.bucket-btn--retrieve').on('click', function(event) {
+  $('.bucket-btn--list').on('click', function(event) {
     event.preventDefault();
     console.log('List Buckets button clicked');
-    $('.buckets-retrieved')
+    $('.buckets-list')
       .html('Retrieving buckets . . .')
       .css('color', 'orange');
 
     $.ajax({
       method: 'GET',
-      url: '/buckets/retrieve'
+      url: '/buckets/list'
     }).done(function(buckets) {
       if (!buckets.length) {
-        $('.buckets-retrieved').html('No buckets');
+        $('.buckets-list').html('No buckets');
       } else {
         buckets.forEach(function(bucket) {
-          $('.buckets-retrieved')
+          $('.buckets-list')
             .html('Buckets: ')
             .css('color', 'black')
           console.log(bucket);
           var bucketList = document.createElement('ul');
-          $('.buckets-retrieved').append($(bucketList));
+          $('.buckets-list').append($(bucketList));
           var bucketItem = document.createElement('li');
           $(bucketItem).html(`Name: ${bucket.name}, id: ${bucket.id}`);
           $(bucketList).append(bucketItem);
