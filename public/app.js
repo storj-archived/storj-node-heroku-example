@@ -107,6 +107,25 @@ $(document).ready(function() {
     });
   });
 
+  // Create bucket
+  $('.bucket-btn--create').on('click', function(event) {
+    event.preventDefault();
+    var newBucketName = $('.new-bucket-name').val()
+    if (!newBucketName) {
+      return console.log('Need to enter bucket name');
+    }
+
+    $.ajax({
+      method: 'POST',
+      url: '/buckets/create',
+      data: { name: newBucketName }
+    }).done(function(bucket) {
+      console.log('Bucket created', bucket);
+      $('.bucket-created').text(`Bucket ${bucket.name} created!`);
+      $('.new-bucket-name').val('');
+    });
+  });
+
   // List buckets
   $('.bucket-btn--retrieve').on('click', function(event) {
     event.preventDefault();
@@ -137,22 +156,26 @@ $(document).ready(function() {
     });
   });
 
-  // Create bucket
-  $('.bucket-btn--create').on('click', function(event) {
+  // Upload file
+  $('.files-btn--upload').on('click', function(event) {
     event.preventDefault();
-    var newBucketName = $('.new-bucket-name').val()
-    if (!newBucketName) {
-      return console.log('Need to enter bucket name');
-    }
+    console.log('Upload file button clicked');
+    $('.files-upload')
+      .html('File upload in process . . .')
+      .css('color', 'orange');
 
     $.ajax({
-      method: 'POST',
-      url: '/buckets/create',
-      data: { name: newBucketName }
-    }).done(function(bucket) {
-      console.log('Bucket created', bucket);
-      $('.bucket-created').text(`Bucket ${bucket.name} created!`);
-      $('.new-bucket-name').val('');
+      method: 'GET',
+      url: '/files/upload'
+    }).done(function(file) {
+      console.log('upload', file)
+      $('.files-upload')
+        .html(`File ${file.filename} uploaded to ${file.bucket}!`)
+        .css('color', 'green');
+    }).error(function(err) {
+      $('.files-upload')
+        .html(`Error occurred: ${err.statusText}`)
+        .css('color', 'red');
     });
   });
 
@@ -194,29 +217,6 @@ $(document).ready(function() {
           });
         }
       }
-    });
-  });
-
-  // Upload file
-  $('.files-btn--upload').on('click', function(event) {
-    event.preventDefault();
-    console.log('Upload file button clicked');
-    $('.files-upload')
-      .html('File upload in process . . .')
-      .css('color', 'orange');
-
-    $.ajax({
-      method: 'GET',
-      url: '/files/upload'
-    }).done(function(file) {
-      console.log('upload', file)
-      $('.files-upload')
-        .html(`File ${file.filename} uploaded to ${file.bucket}!`)
-        .css('color', 'green');
-    }).error(function(err) {
-      $('.files-upload')
-        .html(`Error occurred: ${err.statusText}`)
-        .css('color', 'red');
     });
   });
 
