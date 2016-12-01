@@ -7,6 +7,19 @@ var through = require('through');
 var path = require('path');
 var localAssetsDir = __dirname + '/public';
 
+// Storj specific
+var storj = require('storj-lib');
+var STORJ_EMAIL = process.env.STORJ_EMAIL;
+var STORJ_PASSWORD = process.env.STORJ_PASSWORD;
+var STORJ_PRIVATE_KEY = process.env.STORJ_PRIVATE_KEY;
+var KEYRING_PASS = 'somepassword';
+var api = 'https://api.storj.io';
+var storjCredentials = {
+  email: STORJ_EMAIL,
+  password: STORJ_PASSWORD
+};
+var client;
+
 app.set('port', (process.env.PORT || 5000));
 
 app.use(express.static(__dirname + '/public'));
@@ -87,9 +100,7 @@ app.get('/keypair/authenticate', function(req, res) {
 app.post('/buckets/create', function(req, res) {
   // Settings for bucket
   var bucketInfo = {
-    name: req.body.name,
-    storage: 30,
-    transfer: 10
+    name: req.body.name
   };
 
   // Create bucket
