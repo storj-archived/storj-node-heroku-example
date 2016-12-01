@@ -7,6 +7,7 @@ $(document).ready(function() {
   $('.credentials-btn--show').on('click', function(event) {
     event.preventDefault();
     console.log('Show Credentials button clicked');
+    $('.credential-result').text('');
 
     $.ajax({
       method: 'GET',
@@ -14,6 +15,8 @@ $(document).ready(function() {
     }).done(function(credentials) {
       $('.credentials--username').html(`Username: ${credentials.email}`);
       $('.credentials--password').html(`Password: ${credentials.password}`);
+    }).error(function(err) {
+        handleError('Credentials', '.credential-result', 'text', err);
     });
   });
 
@@ -21,6 +24,7 @@ $(document).ready(function() {
   $('.auth-btn').on('click', function(event) {
     event.preventDefault();
     console.log('Authenticate button clicked');
+    $('.auth-result').html('');
 
     $.ajax({
       method: 'GET',
@@ -35,6 +39,8 @@ $(document).ready(function() {
           .html('Authentication failed')
           .css('color', 'red');
       }
+    }).error(function(err) {
+      handleError('Authentication', '.auth-result', 'html', err);
     });
   });
 
@@ -42,6 +48,7 @@ $(document).ready(function() {
   $('.keypair-btn--generate').on('click', function(event) {
     event.preventDefault();
     console.log('Generate Key Pair button clicked');
+    $('.keypair-generated').html('');
 
     $.ajax({
       method: 'GET',
@@ -52,10 +59,7 @@ $(document).ready(function() {
         .html(`Key Pair generated! ${keypair}`)
         .css('color', 'green');
     }).error(function(err) {
-      console.log('Key pair error', err);
-      $('.keypair-generated')
-        .html(`Key Pair not generated, reason: ${err.responseText}`)
-        .css('color', 'red');
+      handleError('Key Pair Generated', '.keypair-generated', 'html', err);
     });
   });
 
@@ -63,6 +67,7 @@ $(document).ready(function() {
   $('.keypair-btn--retrieve').on('click', function(event) {
     event.preventDefault();
     console.log('Retrieve Key Pair button clicked');
+    $('.keypair-retrieved').text('');
 
     $.ajax({
       method: 'GET',
@@ -83,6 +88,8 @@ $(document).ready(function() {
           $('.keypair-public').append(keyItem);
         });
       }
+    }).error(function(err) {
+      handleError('Key pair retrieved', '.keypair-retrieved', 'text', err);
     });
   });
 
@@ -90,6 +97,7 @@ $(document).ready(function() {
   $('.keypair-btn--authenticate').on('click', function(event) {
     event.preventDefault();
     console.log('Authenticate (KeyPair) button clicked');
+    $('.keypair-authenticated').html('')
 
     $.ajax({
       method: 'GET',
@@ -104,6 +112,30 @@ $(document).ready(function() {
           .html('Keypair authentication failed')
           .css('color', 'red');
       }
+    }).error(function(err) {
+      handleError('Key pair authentication', '.keypair-authenticated', 'html', err);
+    });
+  });
+
+  // Create bucket
+  $('.bucket-btn--create').on('click', function(event) {
+    event.preventDefault();
+    $('.bucket-created').html('');
+    var newBucketName = $('.new-bucket-name').val()
+    if (!newBucketName) {
+      return $('.bucket-created').html('Enter a bucket name');
+    }
+
+    $.ajax({
+      method: 'POST',
+      url: '/buckets/create',
+      data: { name: newBucketName }
+    }).done(function(bucket) {
+      console.log('Bucket created', bucket);
+      $('.bucket-created').text(`Bucket ${bucket.name} created!`);
+      $('.new-bucket-name').val('');
+    }).error(function(err) {
+      handleError('Bucket creation', '.bucket-created', 'html', err);
     });
   });
 
@@ -129,7 +161,9 @@ $(document).ready(function() {
   // List buckets
   $('.bucket-btn--list').on('click', function(event) {
     event.preventDefault();
+    $('.bucket-list').html('');
     console.log('List Buckets button clicked');
+
     $('.buckets-list')
       .html('Retrieving buckets . . .')
       .css('color', 'orange');
@@ -153,12 +187,16 @@ $(document).ready(function() {
           $(bucketList).append(bucketItem);
         });
       }
+    }).error(function(err) {
+      handleError('Bucket list', '.buckets-list', 'html', err);
     });
   });
 
   // Upload file
   $('.files-btn--upload').on('click', function(event) {
     event.preventDefault();
+
+    $('.files-upload').html('');
     console.log('Upload file button clicked');
     $('.files-upload')
       .html('File upload in process . . .')
@@ -173,15 +211,14 @@ $(document).ready(function() {
         .html(`File ${file.filename} uploaded to ${file.bucket}!`)
         .css('color', 'green');
     }).error(function(err) {
-      $('.files-upload')
-        .html(`Error occurred: ${err.statusText}`)
-        .css('color', 'red');
+      handleError('File Upload', '.files-upload', 'html', err);
     });
   });
 
   // List files in bucket
   $('.files-btn--list').on('click', function(event) {
     event.preventDefault();
+    $('.files-list').html('');
     console.log('List Files in Bucket button clicked');
     $('.files-list')
       .html('Retrieving files . . .')
@@ -217,6 +254,8 @@ $(document).ready(function() {
           });
         }
       }
+    }).error(function(err) {
+      handleError('List Files', '.files-list', 'html', err);
     });
   });
 
@@ -224,6 +263,8 @@ $(document).ready(function() {
   $('.files-btn--download').on('click', function(event) {
     event.preventDefault();
     console.log('Download Files button clicked');
+    $('.files-downloaded').html('');
+
     $('.files-downloaded')
       .html('Downloading in process . . .')
       .css('color', 'orange');
@@ -240,7 +281,28 @@ $(document).ready(function() {
         // Set grumpy pic
         $('.grumpy-pic').attr('src', './grumpy-dwnld.jpg')
       }
+    }).error(function(err) {
+      handleError('Files download', '.files-downloaded', 'html', err);
     });
   });
 
 });
+
+function handleError(subject, className, element, err) {
+  if (err) {
+    console.log(subject + ' error:', err.responseText);
+    switch (err.status) {
+      case 404:
+        $(className)
+          [element]('No endpoint! Go build it!')
+          .addClass('spacer')
+          .css('color', 'red');
+        break;
+      default:
+        $(className)
+          [element](subject + ' error', err.responseText)
+          .addClass('spacer')
+          .css('color', 'red');
+    }
+  }
+}
