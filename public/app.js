@@ -13,8 +13,16 @@ $(document).ready(function() {
       method: 'GET',
       url: '/user/retrieve'
     }).done(function(credentials) {
-      $('.credentials--username').html(`Username: ${credentials.email}`);
-      $('.credentials--password').html(`Password: ${credentials.password}`);
+      console.log('credentials', credentials.email)
+      if (credentials.email && credentials.password) {
+        $('.credentials--username').html(`Username: ${credentials.email}`);
+        $('.credentials--password').html(`Password: ${credentials.password}`);
+      } else {
+        $('.credentials-result')
+          .text('Missing credentials! Check index.js and make sure you have a .env file with KEY=VALUE pairs')
+          .addClass('spacer')
+          .css('color', 'red');
+      }
     }).error(function(err) {
         handleError('Credentials', '.credential-result', 'text', err);
     });
@@ -300,7 +308,7 @@ function handleError(subject, className, element, err) {
         break;
       default:
         $(className)
-          [element](subject + ' error', err.responseText)
+          [element](subject + ' error ' + err.responseText)
           .addClass('spacer')
           .css('color', 'red');
     }
