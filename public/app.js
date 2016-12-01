@@ -24,7 +24,7 @@ $(document).ready(function() {
           .css('color', 'red');
       }
     }).error(function(err) {
-        handleError('Credentials', '.credential-result', 'text', err);
+        handleError('Credentials', '.credentials-result', 'text', err);
     });
   });
 
@@ -307,6 +307,7 @@ function handleError(subject, className, element, err) {
           .css('color', 'red');
         break;
       default:
+        var showErr = err.responseText || err.statusText;
         $(className)
           [element](subject + ' error ' + err.responseText)
           .addClass('spacer')
