@@ -1,6 +1,6 @@
 # storj-node-heroku-example
 
-A Node.js app using [Express 4](http://expressjs.com/), with jQuery on the client. This application starts with a built out front end, and on the barebones on the backend. This is meant to be a tutorial application, with the `master` branch being the starting point. A `solution` branch is provided if you want to see the completed code.
+A Node.js app using [Express 4](http://expressjs.com/), with jQuery on the client. This application starts with a built out front end and a barebones backend. This is meant to be a tutorial application, with the `master` branch being the starting point. A `solution` branch is provided with the completed code (but you will still need to add a [`.env` file](#Setup) and have your own [Storj](https://storj.io) account).
 
 ## Video Tutorials
 
@@ -14,18 +14,10 @@ Make sure you have [Node.js](http://nodejs.org/) and the [Heroku Toolbelt](https
 $ git clone git@github.com:Storj/storj-node-heroku-example.git # or clone your own fork
 $ cd storj-node-heroku-example
 $ npm install
-$ heroku local web
+$ npm start
 ```
 
 Your app should now be running on [localhost:5000](http://localhost:5000/).
-
-## `heroku local web` vs `npm start`
-
-Running `heroku local web` instead of `npm start` will pull environment variables from a local `.env` file. If you use `npm start`, then you need to pass in any environment variables at that time:
-
-```sh
-$ npm start STORJ_EMAIL=email@email.com STORJ_PASSWORD=password OTHER_ENVS=whatever
-```
 
 ## Deploying to Heroku
 
@@ -49,6 +41,14 @@ STORJ_PASSWORD=password
 ```
 
 If you don't have a Storj account, sign up for one [here](https://storj.io).
+
+## `heroku local web` vs `npm start`
+
+Running `heroku local web` instead of `npm start` will pull environment variables from a local `.env` file. If you use `npm start`, then you need to pass in any environment variables at that time:
+
+```sh
+$ npm start STORJ_EMAIL=email@email.com STORJ_PASSWORD=password OTHER_ENVS=whatever
+```
 
 ## Documentation
 
