@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Getting Started with Storj on Heroku</title>
+    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
+  </head>
+
+  <body>
+    <!-- navbar start -->
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <ul class="nav navbar-nav">
+          <li class="active">
+            <a href="/"><span class="glyphicon glyphicon-home"></span> Home</a>
+          </li>
+          <li>
+            <a href="https://devcenter.heroku.com/articles/how-heroku-works"><span class="glyphicon glyphicon-user"></span> How Heroku Works</a>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-info-sign"></span> Getting Started Guides <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="https://devcenter.heroku.com/articles/getting-started-with-ruby">Getting Started with Ruby on Heroku</a></li>
+                <li><a href="https://devcenter.heroku.com/articles/getting-started-with-nodejs">Getting Started with Node on Heroku</a></li>
+                <li><a href="https://devcenter.heroku.com/articles/getting-started-with-php">Getting Started with PHP on Heroku</a></li>
+                <li><a href="https://devcenter.heroku.com/articles/getting-started-with-python">Getting Started with Python on Heroku</a></li>
+                <li><a href="https://devcenter.heroku.com/articles/getting-started-with-java">Getting Started with Java on Heroku</a></li>
+                <li><a href="https://devcenter.heroku.com/articles/getting-started-with-go">Getting Started with Go on Heroku</a></li>
+                <li><a href="https://devcenter.heroku.com/articles/getting-started-with-clojure">Getting Started with Clojure on Heroku</a></li>
+                <li><a href="https://devcenter.heroku.com/articles/getting-started-with-scala">Getting Started with Scala on Heroku</a></li>
+                <li class="divider"></li>
+                <li><a href="https://devcenter.heroku.com/articles/getting-started-with-heroku-and-connect-without-local-dev">Getting Started on Heroku with Heroku Connect</a></li>
+                <li><a href="https://devcenter.heroku.com/articles/getting-started-with-jruby">Getting Started with Ruby on Heroku (Microsoft Windows)</a></li>
+              </ul>
+          </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="navbar-right">
+            <a href="https://storj.io/developers.html"><span class="glyphicon glyphicon-book"></span> Storj Dev Center</a>
+          </li>
+          <li class="navbar-right">
+            <a href="https://storj.io/community.html"><span class="glyphicon glyphicon-user"></span> Storj Community</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <!-- navbar end -->
+
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="jumbotron text-center">
+            <a href="/" class="lang-logo">
+              <img src="logo.png">
+            </a>
+            <h1>Getting Started with Storj on Heroku</h1>
+            <p><a href="https://storj.io/">Storj</a> is a distributed cloud storage platform, suitable for static content.<br>This page is an example of hosting and serving assets from Storj.</p>
+            <a type="button" class="btn btn-lg btn-primary" href="http://docs.storj.io/">Quickstart Guide</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- tutorial start -->
+    <div class="container storj-methods">
+      <div class="row grumpy-holder">
+        <img src="" alt="Goal: Upload grumpy.jpg into Storj bucket, download grump.jpg from Storj bucket, display downloaded image here"
+        class="grumpy-pic">
+      </div>
+
+      <hr>
+
+      <!-- Basic Authentication -->
+      <h3>Basic Authentication</h3>
+      <div class="row credentials">
+        <div class="col-xs-4">
+          <span class="sub-list">a.</span>
+          <button class="credentials-btn--show btn btn-lg btn-primary">
+            Show Credentials
+          </button>
+        </div>
+        <div class="col-xs-8">
+          <div class="row credentials--username">
+            <!-- STORJ_EMAIL -->
+          </div>
+          <div class="row credentials--password">
+            <!-- STORJ_PASSWORD -->
+          </div>
+        </div>
+      </div>
+      <div class="row authenticate">
+        <div class="col-xs-4">
+          <span class="sub-list">b.</span>
+          <button class="auth-btn btn btn-lg btn-primary">
+            Authenticate (Basic)
+          </button>
+        </div>
+        <div class="col-xs-8 auth-result spacer">
+          <!-- AUTHENTICATION RESULT -->
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- Key Pair -->
+      <h3>Key Pair</h3>
+      <div class="row">
+        <div class="col-xs-4">
+          <span class="sub-list">a.</span>
+          <button class="keypair-btn--generate btn btn-lg btn-primary">
+            Generate Key Pair
+          </button>
+        </div>
+        <div class="col-xs-8">
+          <div class="keypair-generated spacer"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-4">
+          <span class="sub-list">b.</span>
+          <button class="keypair-btn--retrieve btn btn-lg btn-primary">
+            Retrieve Key Pair
+          </button>
+        </div>
+        <div class="col-xs-8">
+          <div class="keypair-retrieved spacer">
+            <span class="keypair-retrieved--success"></span>
+            <ul class="keypair-public">
+              <!-- "KEY_PAIR" -->
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-4">
+          <span class="sub-list">c.</span>
+          <button class="keypair-btn--authenticate btn btn-lg btn-primary">
+            Authenticate (KeyPair)
+          </button>
+        </div>
+        <div class="col-xs-8 keypair-authenticated spacer"></div>
+      </div>
+
+      <hr>
+
+      <!-- Buckets -->
+      <h3>Buckets</h3>
+      <div class="row bucket-create">
+        <div class="col-xs-4">
+          <span class="sub-list">b.</span>
+          <input class="new-bucket-name" type="text" placeholder="Enter bucket name" />
+          <button class="bucket-btn--create btn btn-lg btn-primary">
+            Create Bucket
+          </button>
+        </div>
+        <div class="col-xs-8 bucket-created">
+          <!-- BUCKET CREATED -->
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-4">
+          <span class="sub-list">a.</span>
+          <button class="bucket-btn--list btn btn-lg btn-primary">
+            List Buckets
+          </button>
+        </div>
+        <div class="col-xs-6 buckets-list spacer">
+          <!-- BUCKETS -->
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- Files -->
+      <h3>Files</h3>
+      <div class="row">
+        <div class="col-xs-4 files__upload">
+          <span class="sub-list">b.</span>
+          <button class="files-btn--upload btn btn-lg btn-primary">
+            Upload File
+          </button>
+        </div>
+        <div class="col-xs-8 files-upload spacer">
+          <!-- FILE TO UPLOAD -->
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-4">
+          <span class="sub-list">a.</span>
+          <button class="files-btn--list btn btn-lg btn-primary">
+            List Files in Buckets
+          </button>
+        </div>
+        <div class="col-xs-8 files-list spacer">
+          <!-- FILES -->
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-4">
+          <span class="sub-list">c.</span>
+          <button class="files-btn--download btn btn-lg btn-primary">
+            Download Files
+          </button>
+        </div>
+        <div class="col-xs-8 files-downloaded spacer">
+          <!-- "DOWNLOADED FILE FROM BUCKET" -->
+        </div>
+      </div>
+    <!-- tutorial end -->
+    <hr>
+
+    <script src="app.js"></script>
+  </body>
+</html>
