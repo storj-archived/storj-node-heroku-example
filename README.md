@@ -10,13 +10,13 @@ Build out the application along with the [videos](https://www.youtube.com/playli
 4. [Setup](#setup)
 5. [Documentation](#documentation)
 6. [Tutorial](#tutorial)
-    1. [Deploying Demo Application](deploying-demo-application)
-    2. [Adding Storj Add-on](adding-storj-add-on)
-    3. [Activating Storj Account](activating-storj-account)
-    4. [Exploring Demo Application](exploring-demo-application)
+    1. [Deploying Demo Application](#deploying-demo-application)
+    2. [Adding Storj Add-on](#adding-storj-add-on)
+    3. [Activating Storj Account](#activating-storj-account)
+    4. [Exploring Demo Application](#exploring-demo-application)
     5. [Application Setup and Authentication](#application-setup-and-authentication)
-    6. [Key Pairs](key-pairs)
-    7. [Create and List Buckets](create-and-list-buckets)
+    6. [Key Pairs](#key-pairs)
+    7. [Create and List Buckets](#create-and-list-buckets)
     8. [Upload File](#upload-file)
     9. [List Files](#list-files)
     10. [Download Files](#download-files)
@@ -130,8 +130,6 @@ Confirming the email will open up a tab/window indicating you’ve been activate
 
 ## Exploring Demo Application
 
-# T01-V04
-
 ### Prerequisites
 
 - Github account
@@ -156,7 +154,9 @@ Heroku makes it pretty easy to work on your code, and then push and deploy those
 
 Make sure you’ve logged into Heroku via the CLI:
 
-`heroku login`
+```sh
+$ heroku login
+```
 
 Enter your credentials.
 
@@ -174,14 +174,22 @@ Click on the green `’Clone or download’` button, and copy the appropriate li
 In your terminal, navigate to where you want to put this file and then clone the project:
 
 If SSH it will look like this:
-`git clone git@github.com:<your github username>/storj-node-heroku-example.git`
+
+```sh
+$ git clone git@github.com:<your github username>/storj-node-heroku-example.git
+```
 
 If HTTPS it will look like this:
-`git clone https://github.com/<your github username>/storj-node-heroku-example.git`
+
+```sh
+$ git clone https://github.com/<your github username>/storj-node-heroku-example.git
+```
 
 Once it’s done cloning, navigate into the project:
 
-`cd storj-node-heroku-example`
+```sh
+$ cd storj-node-heroku-example
+```
 
 ### Link Project Repo to Heroku Application
 
@@ -189,11 +197,14 @@ We need to link up our project to Heroku, that way when we push to Heroku it wil
 
 We can check our remote repos with the following command:
 
-`git remote -v`
+```sh
+git remote -v
+```
 
 You’ll probably see something like this:
-```
-origin	  git@github.com:barbaraliau/storj-node-heroku-example.git (fetch)
+
+```sh
+origin	git@github.com:barbaraliau/storj-node-heroku-example.git (fetch)
 origin  	git@github.com:barbaraliau/storj-node-heroku-example.git (push)
 ```
 
@@ -201,13 +212,15 @@ We want to add a remote branch called `heroku`. By default, this is the branch n
 
 Let’s add a remote branch that points to our Heroku application:
 
-`git remote add heroku https://git.heroku.com/<project name>.git`
+```sh
+$ git remote add heroku https://git.heroku.com/<project name>.git
+```
 
 Make sure to change the code and put your project name there.
 
 Now when we run `git remote -v`, we should see a heroku branch:
 
-```
+```sh
 heroku	  https://git.heroku.com/use-storj-tutorial.git (fetch)
 heroku	  https://git.heroku.com/use-storj-tutorial.git (push)
 origin	  git@github.com:barbaraliau/storj-node-heroku-example.git (fetch)
@@ -220,7 +233,7 @@ That’s all we need to link our repo to our Heroku application. Now we can work
 
 ### Boilerplate Code Walkthrough
 
-Since the purpose of this tutorial is to focus on Storj code, we’ve built out the HTML and CSS and started the Express code. On the front-end we’ll be using jQuery, but you can easily take what we’re doing and apply it to React, Angular, Vue, or any other library/framework, since most of the Storj-specific code is going to be done on the backend.
+Since the purpose of this tutorial is to focus on Storj code, we’ve built out the client and started the Express code. On the front-end we’ll be using jQuery, but you can easily take what we’re doing and apply it to React, Angular, Vue, or any other library/framework, since most of the Storj-specific code is going to be done on the backend.
 
 What we’re going to do is use these buttons here as a task list. We’re going to build out the code in this order.
 
@@ -228,13 +241,15 @@ Before we start coding, remember to run `npm i` to install dependencies and then
 
 ### Running Heroku Locally
 
-If you remember a STORJ_EMAIL and STORJ_PASSWORD was created for us when we provisioned the Storj Add-on. This is stored in our Heroku deployment, but we can’t access that locally. So the first thing we’ll want to do is create a `.env` file and then copy those variables over. We can then reference them using `process.env` in our code.
+If you remember a `STORJ_EMAIL` and `STORJ_PASSWORD` was created for us when we provisioned the Storj Add-on. This is stored in our Heroku deployment, but we can’t access that locally. So the first thing we’ll want to do is create a `.env` file and then copy those variables over. We can then reference them using `process.env` in our code.
 
 Heroku looks for the values in `KEY=VALUE` format.
 
 Let’s make a `.env` file in the root of our project.
 
-`touch .env`
+```sh
+$ touch .env
+```
 
 Copy the Config Vars from our Heroku Settings and paste them in like so:
 
@@ -247,7 +262,6 @@ Now when we run our code using `heroku local web`, our Config Vars will be read 
 
 Note that this file is in our `.gitignore`. You want to keep this variables private.
 
-
 ### Authentication
 
 #### Show Credentials
@@ -259,18 +273,18 @@ Let’s wire up our button:
 `app.js`
 
 ```javascript
-  // Get client info
-  $('.credentials-btn--show').on('click', function(event) {
-    event.preventDefault();
-    console.log('Show Credentials button clicked');
-    $.ajax({
-      method: 'GET',
-      url: '/user/retrieve'
-    }).done(function(credentials) {
-      $('.credentials--username').html(`Username: ${credentials.email}`);
-      $('.credentials--password').html(`Password: ${credentials.password}`);
-    });
+// Get client info
+$('.credentials-btn--show').on('click', function(event) {
+  event.preventDefault();
+  console.log('Show Credentials button clicked');
+  $.ajax({
+    method: 'GET',
+    url: '/user/retrieve'
+  }).done(function(credentials) {
+    $('.credentials--username').html(`Username: ${credentials.email}`);
+    $('.credentials--password').html(`Password: ${credentials.password}`);
   });
+});
 ```
 
 In `index.js` we’re going to add these two variables:
@@ -315,25 +329,25 @@ Setup our button in `app.js`:
 
 ```javascript
 // Authenticate client
-  $('.auth-btn').on('click', function(event) {
-    event.preventDefault();
-    console.log('Authenticate button clicked');
+$('.auth-btn').on('click', function(event) {
+  event.preventDefault();
+  console.log('Authenticate button clicked');
 
-    $.ajax({
-      method: 'GET',
-      url: '/user/authenticate/user-pass'
-    }).done(function(result) {
-      if (result === 'successful') {
-        $('.auth-result')
-          .html('Authentication with basic auth successful!')
-          .css('color', 'green');
-      } else {
-        $('.auth-result')
-          .html('Authentication failed')
-          .css('color', 'red');
-      }
-    });
+  $.ajax({
+    method: 'GET',
+    url: '/user/authenticate/user-pass'
+  }).done(function(result) {
+    if (result === 'successful') {
+      $('.auth-result')
+        .html('Authentication with basic auth successful!')
+        .css('color', 'green');
+    } else {
+      $('.auth-result')
+        .html('Authentication failed')
+        .css('color', 'red');
+    }
   });
+});
 ```
 
 We’re going to be using the storj api, so we’ll need to require storj and set the api address. We also need to create a ‘client’ variable to assign our authenticated client to.
@@ -372,26 +386,26 @@ That being said, let’s go ahead and generate a key pair and add it to our acco
 `app.js`
 
 ```javascript
-  // Generate keypair
-  $('.keypair-btn--generate').on('click', function(event) {
-    event.preventDefault();
-    console.log('Generate Key Pair button clicked');
+// Generate keypair
+$('.keypair-btn--generate').on('click', function(event) {
+  event.preventDefault();
+  console.log('Generate Key Pair button clicked');
 
-    $.ajax({
-      method: 'GET',
-      url: '/keypair/generate'
-    }).done(function(keypair) {
-      console.log('Generated key pair ', keypair);
-      $('.keypair-generated')
-        .html(`Key Pair generated! ${keypair}`)
-        .css('color', 'green');
-    }).error(function(err) {
-      console.log('Key pair error', err);
-      $('.keypair-generated')
-        .html(`Key Pair not generated, reason: ${err.responseText}`)
-        .css('color', 'red');
-    });
+  $.ajax({
+    method: 'GET',
+    url: '/keypair/generate'
+  }).done(function(keypair) {
+    console.log('Generated key pair ', keypair);
+    $('.keypair-generated')
+      .html(`Key Pair generated! ${keypair}`)
+      .css('color', 'green');
+  }).error(function(err) {
+    console.log('Key pair error', err);
+    $('.keypair-generated')
+      .html(`Key Pair not generated, reason: ${err.responseText}`)
+      .css('color', 'red');
   });
+});
 ```
 
 You can have as many keys as you want, but for the purpose of this application, we’re only going to generate one. Once you generate the key pair, add the public key to your user account, and then save the private key so you can use it to login later. Because of the way Heroku works, we want to save our private key as a `.env` variable.
@@ -436,32 +450,32 @@ If we want to retrieve our public keys our account, that’s easy peasy.
 Set up our button in `app.js`
 
 ```javascript
-  // Retrieve keypair
-  $('.keypair-btn--retrieve').on('click', function(event) {
-    event.preventDefault();
-    console.log('Retrieve Key Pair button clicked');
+// Retrieve keypair
+$('.keypair-btn--retrieve').on('click', function(event) {
+  event.preventDefault();
+  console.log('Retrieve Key Pair button clicked');
 
-    $.ajax({
-      method: 'GET',
-      url: '/keypair/retrieve'
-    }).done(function(keypairs) {
-      console.log('Key pair(s) retrieved', keypairs);
-      if (!keypairs.length) {
-        $('.keypair-retrieved').html('No keys retrieved');
-      } else {
-        $('.keypair-retrieved--success')
-          .html('Keys Retrieved:')
-          .css('color', 'green');
+  $.ajax({
+    method: 'GET',
+    url: '/keypair/retrieve'
+  }).done(function(keypairs) {
+    console.log('Key pair(s) retrieved', keypairs);
+    if (!keypairs.length) {
+      $('.keypair-retrieved').html('No keys retrieved');
+    } else {
+      $('.keypair-retrieved--success')
+        .html('Keys Retrieved:')
+        .css('color', 'green');
 
-        // Create an li element for each keypair and append to ul
-        keypairs.forEach(function(keypair) {
-          var keyItem = document.createElement('li');
-          $(keyItem).text(keypair.key);
-          $('.keypair-public').append(keyItem);
-        });
-      }
-    });
+      // Create an li element for each keypair and append to ul
+      keypairs.forEach(function(keypair) {
+        var keyItem = document.createElement('li');
+        $(keyItem).text(keypair.key);
+        $('.keypair-public').append(keyItem);
+      });
+    }
   });
+});
 ```
 
 `index.js`
@@ -493,26 +507,26 @@ Now that we’ve generated a key pair, we can use it instead of our username/pas
 Set up button `app.js`
 
 ```javascript
-  // Authenticate with keypair
-  $('.keypair-btn--authenticate').on('click', function(event) {
-    event.preventDefault();
-    console.log('Authenticate (KeyPair) button clicked');
+// Authenticate with keypair
+$('.keypair-btn--authenticate').on('click', function(event) {
+  event.preventDefault();
+  console.log('Authenticate (KeyPair) button clicked');
 
-    $.ajax({
-      method: 'GET',
-      url: '/keypair/authenticate'
-    }).done(function(authenticated) {
-      if (authenticated === 'successful') {
-        $('.keypair-authenticated')
-          .html('Authenticated with keypair!')
-          .css('color', 'green');
-      } else {
-        $('.keypair.authenticated')
-          .html('Keypair authentication failed')
-          .css('color', 'red');
-      }
-    });
+  $.ajax({
+    method: 'GET',
+    url: '/keypair/authenticate'
+  }).done(function(authenticated) {
+    if (authenticated === 'successful') {
+      $('.keypair-authenticated')
+        .html('Authenticated with keypair!')
+        .css('color', 'green');
+    } else {
+      $('.keypair.authenticated')
+        .html('Keypair authentication failed')
+        .css('color', 'red');
+    }
   });
+});
 ```
 
 Set up endpoint in `index.js`
@@ -540,24 +554,24 @@ Now that we’ve got authentication down, we’ll want to create a bucket to put
 `app.js`
 
 ```javascript
-  // Create bucket
-  $('.bucket-btn--create').on('click', function(event) {
-    event.preventDefault();
-    var newBucketName = $('.new-bucket-name').val()
-    if (!newBucketName) {
-      return console.log('Need to enter bucket name');
-    }
+// Create bucket
+$('.bucket-btn--create').on('click', function(event) {
+  event.preventDefault();
+  var newBucketName = $('.new-bucket-name').val()
+  if (!newBucketName) {
+    return console.log('Need to enter bucket name');
+  }
 
-    $.ajax({
-      method: 'POST',
-      url: '/buckets/create',
-      data: { name: newBucketName }
-    }).done(function(bucket) {
-      console.log('Bucket created', bucket);
-      $('.bucket-created').text(`Bucket ${bucket.name} created!`);
-      $('.new-bucket-name').val('');
-    });
+  $.ajax({
+    method: 'POST',
+    url: '/buckets/create',
+    data: { name: newBucketName }
+  }).done(function(bucket) {
+    console.log('Bucket created', bucket);
+    $('.bucket-created').text(`Bucket ${bucket.name} created!`);
+    $('.new-bucket-name').val('');
   });
+});
 ```
 
 `index.js`
@@ -587,7 +601,7 @@ In our code we are passing in a ‘name’ property, but if you happen to leave 
 
 Getting a list of buckets on your account is pretty straightforward.
 
-`app.js`
+In `app.js`:
 
 ```javascript
 // List buckets
@@ -619,6 +633,7 @@ $('.bucket-btn--list').on('click', function(event) {
     }
   });
 });
+
 ```
 
 `index.js`
@@ -641,28 +656,28 @@ app.get('/buckets/list', function(req, res) {
 In `app.js`
 
 ```javascript
-  // Upload file
-  $('.files-btn--upload').on('click', function(event) {
-    event.preventDefault();
-    console.log('Upload file button clicked');
-    $('.files-upload')
-      .html('File upload in process . . .')
-      .css('color', 'orange');
+// Upload file
+$('.files-btn--upload').on('click', function(event) {
+  event.preventDefault();
+  console.log('Upload file button clicked');
+  $('.files-upload')
+    .html('File upload in process . . .')
+    .css('color', 'orange');
 
-    $.ajax({
-      method: 'GET',
-      url: '/files/upload'
-    }).done(function(file) {
-      console.log('upload', file)
-      $('.files-upload')
-        .html(`File ${file.filename} uploaded to ${file.bucket}!`)
-        .css('color', 'green');
-    }).error(function(err) {
-      $('.files-upload')
-        .html(`Error occurred: ${err.statusText}`)
-        .css('color', 'red');
-    });
+  $.ajax({
+    method: 'GET',
+    url: '/files/upload'
+  }).done(function(file) {
+    console.log('upload', file)
+    $('.files-upload')
+      .html(`File ${file.filename} uploaded to ${file.bucket}!`)
+      .css('color', 'green');
+  }).error(function(err) {
+    $('.files-upload')
+      .html(`Error occurred: ${err.statusText}`)
+      .css('color', 'red');
   });
+});
 ```
 
 We’re going to be hardcoding the file that we’re uploading, since we know it’s going to be a grumpy cat picture. When you hook this up to your own app, you can dynamically pass in a file path.
@@ -767,7 +782,7 @@ Now that we’ve uploaded our file, let’s make it so we can see the contents o
 
 In `app.js`:
 
-```javscript
+```javascript
 // List files in bucket
 $('.files-btn--list').on('click', function(event) {
   event.preventDefault();
@@ -859,28 +874,28 @@ We’ve uploaded a file and we’ve listed files inside buckets. All that’s le
 `app.js`
 
 ```javascript
-  // Download file
-  $('.files-btn--download').on('click', function(event) {
-    event.preventDefault();
-    console.log('Download Files button clicked');
-    $('.files-downloaded')
-      .html('Downloading in process . . .')
-      .css('color', 'orange');
+// Download file
+$('.files-btn--download').on('click', function(event) {
+  event.preventDefault();
+  console.log('Download Files button clicked');
+  $('.files-downloaded')
+    .html('Downloading in process . . .')
+    .css('color', 'orange');
 
-    $.ajax({
-      method: 'GET',
-      url: '/files/download'
-    }).done(function(download) {
-      if (download === 'successful') {
-        $('.files-downloaded')
-          .html('Download finished! Scroll up and see a grumpy cat!')
-          .css('color', 'green');
+  $.ajax({
+    method: 'GET',
+    url: '/files/download'
+  }).done(function(download) {
+    if (download === 'successful') {
+      $('.files-downloaded')
+        .html('Download finished! Scroll up and see a grumpy cat!')
+        .css('color', 'green');
 
-        // Set grumpy pic
-        $('.grumpy-pic').attr('src', './grumpy-dwnld.jpg')
-      }
-    });
+      // Set grumpy pic
+      $('.grumpy-pic').attr('src', './grumpy-dwnld.jpg')
+    }
   });
+});
 ```
 
 Similar to the uploading file code, the downloading file code is also quite long. In a nutshell, we’re going to get the key associated with the file from the keyring, and then download and decrypt the file.
@@ -986,13 +1001,16 @@ Now that we’ve finished our app, let’s push our changes to our Heroku deploy
 
 First, let’s commit the changes we’ve made. I’m just going to throw them all into one big commit.
 
-`git add -A`
-
-`git commit -m “Finished app”`
+```sh
+$ git add -A
+$ git commit -m "Finished app"
+```
 
 Once we’ve committed our changes, we can push to Heroku.
 
-`git push heroku master`
+```sh
+$ git push heroku master
+```
 
 Heroku will now rebuild our deployment with all our local changes.
 
