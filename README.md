@@ -1,6 +1,6 @@
 # storj-node-heroku-example
 
-A Node.js app using [Express 4](http://expressjs.com/), with jQuery on the client. This application starts with a built out front end and a barebones backend. This is meant to be a tutorial application, with the `master` branch being the starting point. A `solution` branch is provided with the completed code (but you will still need to add a [`.env` file](#setup) and have your own [Storj](https://storj.io) account).
+A Node.js app using [Express 4](http://expressjs.com/), with jQuery on the client (requires Node v6.9.1). This application starts with a built out front end and a barebones backend. This is meant to be a tutorial application, with the `master` branch being the starting point. A `solution` branch is provided with the completed code (but you will still need to add a [`.env` file](#setup) and have your own [Storj](https://storj.io) account).
 
 Build out the application along with the [videos](https://www.youtube.com/playlist?list=PLEr5Xx0gHvFG55T-_kLKlWosSBw32vP9N) and/or [written](#tutorial) tutorials.
 
@@ -25,7 +25,7 @@ Build out the application along with the [videos](https://www.youtube.com/playli
 
 ## Running Locally
 
-Make sure you have [Node.js](http://nodejs.org/) and the [Heroku Toolbelt](https://toolbelt.heroku.com/) installed.
+Make sure you have [Node.js](http://nodejs.org/) (v6.9.1) and the [Heroku Toolbelt](https://toolbelt.heroku.com/) installed.
 
 ```sh
 $ git clone git@github.com:Storj/storj-node-heroku-example.git # or clone your own fork
