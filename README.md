@@ -39,11 +39,14 @@ Your app should now be running on [localhost:5000](http://localhost:5000/).
 ## Deploying to Heroku
 
 ```sh
-$ heroku create storj-example
-$ heroku addons:create storj --app storj-example
+$ heroku create APP-NAME
+$ heroku addons:create storj:PLAN-NAME --app APP-NAME
 $ git push heroku master
 $ heroku open
 ```
+
+(Note: `APP-NAME` will be what you name your application, and `PLAN-NAME` will be what Storj plan you want. The only option at the moments is our free plan called 'test': `heroku addons:create storj:test --app APP-NAME`)
+
 or
 
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
