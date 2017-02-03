@@ -11,9 +11,10 @@ A Node.js app using [Express 4](http://expressjs.com/), with jQuery on the clien
 1. [Getting Started](#getting-started)
   2. [Clone Repo](#clone-repo)
   3. [Deploy App to Heroku](#deploy-app-to-heroku)
-  4. [Get Storj Credentials](#get-storj-credentials)
-  5. [Setup](#setup)
-  6. [Running Application](#running-application)
+  4. [Add Storj Add-on](#add-storj-add-on)
+  5. [Get Storj Credentials](#get-storj-credentials)
+  6. [Setup](#setup)
+  7. [Running Application](#running-application)
 2. [Documentation](#documentation)
 3. [Tutorial](#tutorial)
     1. [Deploying Demo Application](#deploying-demo-application)
@@ -45,30 +46,64 @@ $ npm install
 
 Please pick Option 1 _or_ Option 2. If you do both you will just have two applications :)
 
-### Option 1 - Using Heroku CLI
+### Option 1 - Clicking This Button
 
-You'll need to make sure you have logged into your Heroku account:
+For super duper easy deployment, click this button. It will create a Heroku application based on this repo and deploy it for you.
+
+[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+
+### Option 2 - Using Heroku CLI
+
+If you want to do this manually, it's only a few easy steps. First, you'll need to make sure you have logged into your Heroku account:
 
 ```
 $ heroku login
 ```
 
-After logging in, you can create a Heroku application and add the Storj add-on to the plan of your choosing (Hobbyist is our free plan). You can see other plan options [here](https://elements.heroku.com/addons/storj).
+After logging in, you can create a Heroku application.
 
 ```sh
 $ heroku create APP-NAME
-$ heroku addons:create storj:hobbyist --app APP-NAME
+```
+
+(Note: Replace `APP-NAME` with what you want to call your application)
+
+You'll see output similar to this:
+
+```sh
+Creating ⬢ storj-heroku-tutorial-0203... done
+https://storj-heroku-tutorial-0203.herokuapp.com/ | https://git.heroku.com/storj-heroku-tutorial-0203.git
+```
+
+Now, we'll push this to a heroku branch for deployment:
+
+```sh
 $ git push heroku master
+```
+
+Once that's done building, you can open your app with:
+
+```sh
 $ heroku open
 ```
 
-Note: Replace `APP-NAME` with what you want to call your application. If you would like to use a plan other than hobbyist, you can replace that with the plan name of your choosing.
+## Add Storj Add-on
 
-### Option 2 - Clicking This Button
+Now that you've deployed the Node application to Heroku, you can add the Storj Add-on so you can start using Storj. Hobbyist is our free plan. You can see other plan options [here](https://elements.heroku.com/addons/storj).
 
-If you want to bypass using the CLI, just click this button instead. It will do all the above for you.
+You can do this via the Heroku GUI (instructions [here](#adding-storj-add-on)), or use the Heroku CLI:
 
-[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+```sh
+$ heroku addons:create storj:hobbyist --app APP-NAME
+```
+
+You should see output similar to this:
+
+ ```sh
+Creating storj:hobbyist on ⬢ storj-heroku-tutorial-0203... free
+Created storj-lively-57745 as STORJ_EMAIL, STORJ_PASSWORD
+Use heroku addons:docs storj to view documentation
+```
 
 ## Retrieve Storj Credentials
 
@@ -99,7 +134,7 @@ Now that you've got your application cloned and connected to Heroku, you'll need
 
 ## Running Application
 
-There are two ways to run your application - `heroku local web` and `npm start`.
+Now that we've got all that setup out of the way, we can run the application. There are two ways to run your application - `heroku local web` and `npm start`.
 
 Running `heroku local web` will pull environment variables from the `.env` file. This is why we created the `.env` file in the previous step.
 
@@ -108,6 +143,10 @@ You can also use `npm start`, but you will need to pass in variables at that tim
 ```sh
 $ STORJ_EMAIL=email@email.com STORJ_PASSWORD=password npm start
 ```
+
+After running one of those commands, your app should now be running on [localhost:5000](http://localhost:5000/)
+
+Checkout the [Tutorial](#tutorial) for more details on how the application works and what you can do.
 
 ## Documentation
 
