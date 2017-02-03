@@ -40,7 +40,7 @@ Your app should now be running on [localhost:5000](http://localhost:5000/).
 
 ```sh
 $ heroku create storj-example
-$ heroku addons:create storj --app storj-example
+$ heroku addons:create storj:hobbyist --app storj-example
 $ git push heroku master
 $ heroku open
 ```
