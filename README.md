@@ -1,15 +1,21 @@
-# storj-node-heroku-example
+# A Storj-Node Heroku Application
 
-A Node.js app using [Express 4](http://expressjs.com/), with jQuery on the client. This application starts with a built out front end and a barebones backend. This is meant to be a tutorial application, with the `master` branch being the starting point. A `solution` branch is provided with the completed code (but you will still need to add a [`.env` file](#setup) and have your own [Storj](https://storj.io) account).
+A Node.js app using [Express 4](http://expressjs.com/), with jQuery on the client. This application starts out ready for you to roll (aside from adding your own [`.env` file](#setup) which you'll populate with your Storj credentials). If you'd like to build everything out step by step, a `barebones` branch is provided for you and you can use the [videos](https://www.youtube.com/playlist?list=PLEr5Xx0gHvFG55T-_kLKlWosSBw32vP9N) and/or [written](#tutorial) tutorials.
 
-Build out the application along with the [videos](https://www.youtube.com/playlist?list=PLEr5Xx0gHvFG55T-_kLKlWosSBw32vP9N) and/or [written](#tutorial) tutorials.
+## Prerequisites
+
+- [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)
+- [Node.js](http://nodejs.org) > 6.9.1
 
 ## Contents
-2. [Running Locally](#running-locally)
-3. [Deploying to Heroku](#deploying-to-heroku)
-4. [Setup](#setup)
-5. [Documentation](#documentation)
-6. [Tutorial](#tutorial)
+1. [Getting Started](#getting-started)
+  2. [Clone Repo](#clone-repo)
+  3. [Deploy App to Heroku](#deploy-app-to-heroku)
+  4. [Get Storj Credentials](#get-storj-credentials)
+  5. [Setup](#setup)
+  6. [Running Application](#running-application)
+2. [Documentation](#documentation)
+3. [Tutorial](#tutorial)
     1. [Deploying Demo Application](#deploying-demo-application)
     2. [Adding Storj Add-on](#adding-storj-add-on)
     3. [Activating Storj Account](#activating-storj-account)
@@ -23,48 +29,84 @@ Build out the application along with the [videos](https://www.youtube.com/playli
     11. [Pushing to Heroku](#pushing-to-heroku)
     12. [Summary and Additional Resources](#summary-and-additional-resources)
 
-## Running Locally
+# Getting Started
 
-Make sure you have [Node.js](http://nodejs.org/) and the [Heroku Toolbelt](https://toolbelt.heroku.com/) installed.
+This section assumes you just want to get up and running with a working Heroku Application using Storj. You'll be able to authenticate with Storj, create key pairs, create buckets, and upload and download a file.
+
+## Clone Repo
 
 ```sh
-$ git clone git@github.com:Storj/storj-node-heroku-example.git # or clone your own fork
+$ git clone git@github.com:Storj/storj-node-heroku-example.git # or fork and clone your own
 $ cd storj-node-heroku-example
 $ npm install
-$ npm start
 ```
-
-Your app should now be running on [localhost:5000](http://localhost:5000/).
 
 ## Deploying to Heroku
 
+Please pick Option 1 _or_ Option 2. If you do both you will just have two applications :)
+
+### Option 1 - Using Heroku CLI
+
+You'll need to make sure you have logged into your Heroku account:
+
+```
+$ heroku login
+```
+
+After logging in, you can create a Heroku application and add the Storj add-on to the plan of your choosing (Hobbyist is our free plan). You can see other plan options [here](https://elements.heroku.com/addons/storj).
+
 ```sh
-$ heroku create storj-example
-$ heroku addons:create storj:hobbyist --app storj-example
+$ heroku create APP-NAME
+$ heroku addons:create storj:hobbyist --app APP-NAME
 $ git push heroku master
 $ heroku open
 ```
-or
+
+Note: Replace `APP-NAME` with what you want to call your application. If you would like to use a plan other than hobbyist, you can replace that with the plan name of your choosing.
+
+### Option 2 - Clicking This Button
+
+If you want to bypass using the CLI, just click this button instead. It will do all the above for you.
 
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
-## Setup
+## Retrieve Storj Credentials
 
-After deploying or running locally, make sure to create a `.env` file and add your `STORJ_EMAIL` and `STORJ_PASSWORD` credentials to it, in `KEY=VALUE` format:
-
-```
-STORJ_EMAIL=email@email.com
-STORJ_PASSWORD=password
-```
-
-If you don't have a Storj account, sign up for one [here](https://storj.io).
-
-## `heroku local web` vs `npm start`
-
-Running `heroku local web` instead of `npm start` will pull environment variables from a local `.env` file. If you use `npm start`, then you need to pass in any environment variables at that time:
+When you add Storj as an Add-on, a Storj account was generated for you. You can retrieve your credentials with:
 
 ```sh
-$ STORJ_EMAIL=email@email.com STORJ_PASSWORD=password OTHER_ENVS=whatever npm start
+$ heroku config:get STORJ_PASSWORD
+$ heroku config:get STORJ_EMAIL
+```
+
+If you already have a Storj account that you'd like to use instead (or you want to sign up for one [here](https://storj.io and use it), then you can replace these config variables with:
+
+```sh
+$ heroku config:set STORJ_PASSWORD=your_password STORJ_EMAIL=your_email
+```
+
+## Setup
+
+Now that you've got your application cloned and connected to Heroku, you'll need to create a `.env` file to hold your Storj config variables. This will allow you to easily run the app on your local environment.
+
+1. Create a `.env` file in the root of the project `touch .env`
+2. Add STORJ_EMAIL and STORJ_PASSWORD credentials to it in `KEY=VALUE` format
+
+  ```
+  STORJ_EMAIL=email@email.com
+  STORJ_PASSWORD=password
+  ```
+
+## Running Application
+
+There are two ways to run your application - `heroku local web` and `npm start`.
+
+Running `heroku local web` will pull environment variables from the `.env` file. This is why we created the `.env` file in the previous step.
+
+You can also use `npm start`, but you will need to pass in variables at that time:
+
+```sh
+$ STORJ_EMAIL=email@email.com STORJ_PASSWORD=password npm start
 ```
 
 ## Documentation
