@@ -27,32 +27,37 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 /* Endpoints */
 
-app.get('/user/authenticate/user-pass', function(req, res) {
-  client = storj.BridgeClient(api, { basicAuth: storjCredentials });
-  console.log('Logged in with basic auth');
-  res.status(200).send('successful');
-});
-
 app.get('/user/retrieve', function(req, res) {
   console.log('Retrieving basic auth credentials');
   res.status(200).send(storjCredentials);
+});
+
+app.get('/user/authenticate/user-pass', function(req, res) {
+  if (!STORJ_EMAIL || !STORJ_PASSWORD) {
+    return res.status(400).send('No credentials. Make sure you have a .env file with KEY=VALUE pairs')
+  }
+  client = storj.BridgeClient(api, { basicAuth: storjCredentials });
+  console.log('Logged in with basic auth');
+  res.status(200).send('successful');
 });
 
 app.get('/keypair/generate', function(req, res) {
   if (process.env.STORJ_PRIVATE_KEY) {
     console.log('Private key already exists');
     return res.status(400).send('duplicate');
+    // You can actually make as many private keys as you want, but we're just
+    // going to restrict ourselves to one for simplicity
   }
   // Generate keypair
   var keypair = storj.KeyPair();
   console.log('Generating Storj keypair');
 
-  // Add the keypair public key to the user account for Authentication
-  client.addPublicKey(keypair.getPublicKey(), function(err) {
-    if (err) {
-      return console.log('error', err.message);
-    }
+  if (!client) {
+    return res.status(400).send('No authentication. Make sure to authenticate with Basic Authentication first.');
+  }
 
+  // Add the keypair public key to the user account for Authentication
+  client.addPublicKey(keypair.getPublicKey(), function() {
     // Save the private key for using to login later
     fs.appendFileSync('./.env', `\nSTORJ_PRIVATE_KEY=${keypair.getPrivateKey()}`);
     // fs.writeFileSync('./private.key', keypairpair.getPrivateKey());
