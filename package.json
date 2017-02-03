@@ -3,7 +3,7 @@
   "version": "0.3.0",
   "description": "Example application using Storj and Node.js with Express 4",
   "engines": {
-    "node": "6.9.1"
+    "node": "6.9.4"
   },
   "main": "index.js",
   "scripts": {
