@@ -14,7 +14,7 @@ A Node.js app using [Express 4](http://expressjs.com/), with jQuery on the clien
   4. [Add Storj Add-on](#add-storj-add-on)
   5. [Get Storj Credentials](#get-storj-credentials)
   6. [Setup](#setup)
-  7. [Running Application](#running-application)
+  7. [Running Application Locally](#running-application-locally)
 2. [Documentation](#documentation)
 3. [Tutorial](#tutorial)
     1. [Deploying Demo Application](#deploying-demo-application)
@@ -52,6 +52,20 @@ For super duper easy deployment, click this button. It will create a Heroku appl
 
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
+Once it's deployed, hook up your repo to Heroku so you can make future changes with:
+
+```sh
+$ git remote add heroku https://git.heroku.com/APP-NAME.git
+```
+
+(Note: replace `APP-NAME` with the name of your Heroku application)
+
+Now, when you make changes locally and want to push them up, you can use the following command to deploy those changes:
+
+```sh
+$ git push heroku master
+```
+
 ### Option 2 - Use Heroku CLI
 
 If you want to do this manually, it's only a few easy steps. First, you'll need to make sure you have logged into your Heroku account:
@@ -75,7 +89,7 @@ Creating ⬢ storj-heroku-tutorial-0203... done
 https://storj-heroku-tutorial-0203.herokuapp.com/ | https://git.heroku.com/storj-heroku-tutorial-0203.git
 ```
 
-Now, we'll push this to a heroku branch for deployment:
+Now, we'll push this to a heroku branch for deployment (you'll also use this same command to push up any local changes you've made for deployment):
 
 ```sh
 $ git push heroku master
@@ -132,9 +146,9 @@ Now that you've got your application cloned and connected to Heroku, you'll need
   STORJ_PASSWORD=password
   ```
 
-## Running Application
+## Running Application Locally
 
-Now that we've got all that setup out of the way, we can run the application. There are two ways to run your application - `heroku local web` and `npm start`.
+Now that we've got all that setup out of the way, we can run the application locally. There are two ways to run your application - `heroku local web` and `npm start`.
 
 Running `heroku local web` will pull environment variables from the `.env` file. This is why we created the `.env` file in the previous step.
 
