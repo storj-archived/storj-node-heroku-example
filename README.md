@@ -5,7 +5,7 @@ A Node.js app using [Express 4](http://expressjs.com/), with jQuery on the clien
 ## Prerequisites
 
 - [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)
-- [Node.js](http://nodejs.org) > 6.9.1
+- [Node.js](http://nodejs.org) > v6.9.1
 
 ## Contents
 1. [Getting Started](#getting-started)
@@ -37,22 +37,22 @@ This section assumes you just want to get up and running with a working Heroku A
 ## Clone Repo
 
 ```sh
-$ git clone git@github.com:Storj/storj-node-heroku-example.git # or fork and clone your own
+$ git clone https://github.com:Storj/storj-node-heroku-example.git # or fork and clone your own
 $ cd storj-node-heroku-example
 $ npm install
 ```
 
-## Deploying to Heroku
+## Deploy App to Heroku
 
 Please pick Option 1 _or_ Option 2. If you do both you will just have two applications :)
 
-### Option 1 - Clicking This Button
+### Option 1 - Click This Button
 
 For super duper easy deployment, click this button. It will create a Heroku application based on this repo and deploy it for you.
 
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
-### Option 2 - Using Heroku CLI
+### Option 2 - Use Heroku CLI
 
 If you want to do this manually, it's only a few easy steps. First, you'll need to make sure you have logged into your Heroku account:
 
@@ -105,7 +105,7 @@ Created storj-lively-57745 as STORJ_EMAIL, STORJ_PASSWORD
 Use heroku addons:docs storj to view documentation
 ```
 
-## Retrieve Storj Credentials
+## Get Storj Credentials
 
 When you add Storj as an Add-on, a Storj account was generated for you. You can retrieve your credentials with:
 
@@ -125,7 +125,7 @@ $ heroku config:set STORJ_PASSWORD=your_password STORJ_EMAIL=your_email
 Now that you've got your application cloned and connected to Heroku, you'll need to create a `.env` file to hold your Storj config variables. This will allow you to easily run the app on your local environment.
 
 1. Create a `.env` file in the root of the project `touch .env`
-2. Add STORJ_EMAIL and STORJ_PASSWORD credentials to it in `KEY=VALUE` format
+2. Add `STORJ_EMAIL` and `STORJ_PASSWORD` credentials to it in `KEY=VALUE` format
 
   ```
   STORJ_EMAIL=email@email.com
@@ -144,7 +144,7 @@ You can also use `npm start`, but you will need to pass in variables at that tim
 $ STORJ_EMAIL=email@email.com STORJ_PASSWORD=password npm start
 ```
 
-After running one of those commands, your app should now be running on [localhost:5000](http://localhost:5000/)
+After running one of those commands, your app should now be running on [localhost:5000](http://localhost:5000/). Yay!
 
 Checkout the [Tutorial](#tutorial) for more details on how the application works and what you can do.
 
