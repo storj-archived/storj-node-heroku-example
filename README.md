@@ -28,7 +28,7 @@ Build out the application along with the [videos](https://www.youtube.com/playli
 Make sure you have [Node.js](http://nodejs.org/) (v6.9.1) and the [Heroku Toolbelt](https://toolbelt.heroku.com/) installed.
 
 ```sh
-$ git clone git@github.com:Storj/storj-node-heroku-example.git # or clone your own fork
+$ git clone https://github.com:Storj/storj-node-heroku-example.git # or clone your own fork
 $ cd storj-node-heroku-example
 $ npm install
 $ npm start
