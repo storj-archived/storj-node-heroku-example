@@ -64,7 +64,7 @@ If you don't have a Storj account, sign up for one [here](https://storj.io).
 Running `heroku local web` instead of `npm start` will pull environment variables from a local `.env` file. If you use `npm start`, then you need to pass in any environment variables at that time:
 
 ```sh
-$ npm start STORJ_EMAIL=email@email.com STORJ_PASSWORD=password OTHER_ENVS=whatever
+$ STORJ_EMAIL=email@email.com STORJ_PASSWORD=password OTHER_ENVS=whatever npm start
 ```
 
 ## Documentation
