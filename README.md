@@ -6,6 +6,7 @@ A Node.js app using [Express 4](http://expressjs.com/), with jQuery on the clien
 
 - [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)
 - [Node.js](http://nodejs.org) > v6.9.1
+- [Nodemon](https://github.com/remy/nodemon)
 
 ## Contents
 1. [Getting Started](#getting-started)
@@ -32,7 +33,7 @@ A Node.js app using [Express 4](http://expressjs.com/), with jQuery on the clien
 
 # Getting Started
 
-This section assumes you just want to get up and running with a working Heroku Application using Storj. You'll be able to authenticate with Storj, create key pairs, create buckets, and upload and download a file.
+This section assumes you just want to get up and running with a working Heroku Application using Storj. You'll be able to authenticate with Storj, create key pairs, create buckets, and upload and download a file. If you want to dive in, head to the [Tutorial](#tutorial) section.
 
 ## Clone Repo
 
