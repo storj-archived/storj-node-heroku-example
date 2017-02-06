@@ -59,7 +59,7 @@ app.get('/keypair/generate', function(req, res) {
   // Add the keypair public key to the user account for Authentication
   client.addPublicKey(keypair.getPublicKey(), function() {
     // Save the private key for using to login later
-    fs.appendFileSync('./.env', `\nSTORJ_PRIVATE_KEY=${keypair.getPrivateKey()}`);
+    fs.appendFileSync('./.env', `STORJ_PRIVATE_KEY=${keypair.getPrivateKey()}`);
     // fs.writeFileSync('./private.key', keypairpair.getPrivateKey());
 
     // Send back sucess to client
@@ -68,7 +68,12 @@ app.get('/keypair/generate', function(req, res) {
 });
 
 app.get('/keypair/retrieve', function(req, res) {
+  if (!client) {
+    return res.status(400).send('No authentication. Make sure to authenticate with Basic Authentication or Key Pair authentication (if you have already generated a key pair).');
+  }
+
   console.log('Getting public keys');
+
   client.getPublicKeys(function(err, keys) {
     if (err) {
       return console.log('error', err.message);
@@ -87,6 +92,9 @@ app.get('/keypair/retrieve', function(req, res) {
 app.get('/keypair/authenticate', function(req, res) {
   // Load key pair from saved private key
   var privateKey = process.env.STORJ_PRIVATE_KEY;
+
+  console.log('privateKey: ', privateKey)
+
   var keypair = storj.KeyPair(privateKey);
 
   // Login using the keypair
