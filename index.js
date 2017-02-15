@@ -6,18 +6,35 @@ var bodyParser = require('body-parser');
 var through = require('through');
 var path = require('path');
 var localAssetsDir = __dirname + '/public';
+require('dotenv').config();
 
 // Storj variables
 var STORJ_EMAIL = process.env.STORJ_EMAIL;
 var STORJ_PASSWORD = process.env.STORJ_PASSWORD;
+var STORJ_MNEMONIC = process.env.STORJ_MNEMONIC || getMnemonic();
 var storjCredentials = {
   email: STORJ_EMAIL,
   password: STORJ_PASSWORD
 };
+
 var storj = require('storj-lib');
+var storj_utils = require('storj-lib/lib/utils');
 var api = 'https://api.storj.io';
 var client;
 var KEYRING_PASS = 'somepassword';
+var keyring = storj.KeyRing('./', KEYRING_PASS);
+/*
+  Get and/or generate mnemonic for you on load.
+  !! Important: you'll need to manually
+  add the contents of the file in the key.ring directory to your Heroku
+  config variables either through the GUI or the command line
+  `heroku config:set STORJ_MNEMONIC=<FILECONTENTS>
+
+  You'll also need to add it to your .env file. Make sure it is the same
+  name as what you set your heroku config to i.e.g if you call it STORJ_MNEMONIC then make sure you use that name consistently
+*/
+
+console.log('mnemonic', STORJ_MNEMONIC)
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -130,28 +147,27 @@ app.get('/buckets/list', function(req, res) {
 });
 
 app.get('/files/upload', function(req, res) {
-  console.log('Uploading file');
-  // Bucket id
+  // encrypt the file
+  // use deterministic key
+  // use mnemonic as the password and bucketId as the salt
   client.getBuckets(function(err, buckets) {
     if (err) {
-      return console.log('error', err.message);
+      return console.error(err.message);
     }
+    console.log('buckets', buckets)
     // Use the first bucket
     var bucketId = buckets[0].id;
+    console.log('bucketI', bucketId);
     console.log('Uploading file to', bucketId);
 
     // Select the file to be uploaded
     var filepath = './public/grumpy.jpg';
+    var filename = 'grumpy.jpg';
 
-    // Path to temporarily store encrypted version of file to be uploaded
     var tmppath = filepath + '.crypt';
 
-    // Key ring to hold key used to interact with uploaded file
-    var keyring = storj.KeyRing('./', KEYRING_PASS);
-
-    // Prepare to encrypt file for upload
-    var secret = new storj.DataCipherKeyIv();
-    var encrypter = new storj.EncryptStream(secret);
+    var filekey = _getFileKey(STORJ_EMAIL, bucketId, filename);
+    var encrypter = new storj.EncryptStream(filekey);
 
     fs.createReadStream(filepath)
       .pipe(encrypter)
@@ -160,23 +176,21 @@ app.get('/files/upload', function(req, res) {
         console.log('Finished encrypting');
 
         // create token for uploading to bucket by bucketId
+        // has to be bucketId not realBucketId
         client.createToken(bucketId, 'PUSH', function(err, token) {
           if (err) {
             console.log('error', err.message);
           }
-          console.log('Created token for file');
+          console.log('Created token for file', token.token);
 
           // Store the file
+          // has to be bucketId not realBucketId
           client.storeFileInBucket(bucketId, token.token, tmppath,
             function(err, file) {
               if (err) {
                 return console.log('error', err.message);
               }
               console.log('Stored file in bucket');
-
-              // Save key for access to download file
-              keyring.set(file.id, secret);
-
               // Delete tmp file
               fs.unlink(tmppath, function(err) {
                 if (err) {
@@ -189,6 +203,7 @@ app.get('/files/upload', function(req, res) {
             });
         });
       });
+
   });
 });
 
@@ -246,30 +261,22 @@ app.get('/files/download', function(req, res) {
 
       // Get grumpy file
       var grumpyFile = files.find(function(file) {
-        return file.filename.match('grumpy.jpg');
+        return file.filename.match(filename);
       });
       console.log('grumpy', grumpyFile);
-
-      // Set fileId to grumpyFile id
       var fileId = grumpyFile.id;
-      console.log('Got fileId', fileId);
-
-      // Key ring
-      console.log('Getting keyring');
-      // storj.keyRings(<keyRingDir>, <passPhrase>)
-      var keyring = storj.KeyRing('./', KEYRING_PASS);
-
+      // Note: make sure the filename here is the same as when you generated
+      // the filename when you uploaded. Because the filekey was generated
+      // using the filename, they MUST match, otherwise the key will not be
+      // the same and you cannot download the file
+      var filename = 'grumpy.jpg'
       // Where the downloaded file will be saved
       var target = fs.createWriteStream('./public/grumpy-dwnld.jpg');
 
-      // Get key to download file
-      console.log('Get key for fileId');
-      var secret = keyring.get(fileId);
+      var filekey = _getFileKey(STORJ_EMAIL, bucketId, filename);
+      var decrypter = new storj.DecryptStream(filekey);
 
-      // Prepare to decrypt the encrypted fileId
-      var decrypter = new storj.DecryptStream(secret);
       var received = 0;
-
       // Download the fileId
       console.log('Creating file stream');
       client.createFileStream(bucketId, fileId, { exclude: [] },
@@ -295,7 +302,7 @@ app.get('/files/download', function(req, res) {
           console.log('info', 'Received %s of %s bytes', [received, stream._length]);
           this.queue(chunk);
         })).pipe(decrypter)
-           .pipe(target);
+          .pipe(target);
       });
 
       // Handle events emitted from file download stream
@@ -313,3 +320,75 @@ app.get('/files/download', function(req, res) {
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
+
+/**
+ * Deterministically generates filekey to upload/download file based on
+ * mnemonic stored on keyring. This means you only need to have the mnemonic
+ * in order to upload/download on different devices. Think of the mnemonic like
+ * an API key i.e. keep it secret! keep it safe!
+ */
+function _getFileKey(user, bucketId, filename) {
+  var realBucketId = storj_utils.calculateBucketId(user, bucketId);
+  var realFileId = storj_utils.calculateFileId(bucketId, filename);
+  var filekey = keyring.generateFileKey(realBucketId, realFileId);
+  return filekey;
+}
+
+
+/**
+ * This generates a mnemonic that is used to create deterministic keys to
+ * upload and download buckets and files.
+ * One mnemonic is held per keyring
+ */
+function _generateSeed(keyring) {
+  try {
+    keyring.generateDeterministicKey();
+    console.log('info', 'Seed successfully generated');
+  } catch (err) {
+    console.error('error', err.message);
+  }
+};
+
+/**
+ * This retrieves the mnemonic on your keyring
+ */
+function _exportSeed(keyring) {
+  var mnemonic = keyring.exportMnemonic();
+  if (!mnemonic) {
+    return false;
+  } else {
+    console.log('Mnemonic exported');
+    return mnemonic;
+  }
+}
+
+/**
+ * This puts the mnemonic on your keyring. Only one mnemonic is held per
+ * keyring
+ */
+function _importSeed(keyring) {
+  if (keyring.exportMnemonic()) {
+    console.log('Mnemonic already exists');
+    return false;
+  } else {
+    keyring.importMnemonic(generateSeed());
+    console.log('Mnemonic successfully imported')
+    return 'Mnemonic successfully imported';
+  }
+}
+
+function getMnemonic() {
+  console.log('getting mnemonic')
+  const seed = _exportSeed(keyring);
+  if (!seed) {
+    console.log('no seed')
+    try {
+      _generateSeed(keyring)
+      _importSeed(keyring)
+    } catch(err) {
+      console.log('error generating')
+    }
+  } else {
+    return seed;
+  }
+}
