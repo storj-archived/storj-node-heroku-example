@@ -19,7 +19,7 @@ $(document).ready(function() {
         $('.credentials--password').html(`Password: ${credentials.password}`);
       } else {
         $('.credentials-result')
-          .text('Missing credentials! Check index.js and make sure you have a .env file with KEY=VALUE pairs')
+          .text('Missing credentials! Check index.js and make sure you have a .env file with KEY=VALUE pairs.')
           .addClass('spacer')
           .css('color', 'red');
       }
