@@ -459,20 +459,30 @@ function getFileKey(user, bucketId, filename) {
 function generateMnemonic() {
   console.log('Attempting to retrieve mnemonic');
   var mnemonic = keyring.exportMnemonic();
+  var newMnemonic;
+
   if (mnemonic) {
-    console.log('Mnemonic already exists');
+    console.log('Mnemonic already exists', mnemonic);
   } else {
     console.log('Mnemonic doesn\'t exist or new keyring');
-    var newMnemonic = process.env.STORJ_MNEMONIC || keyring.generateDeterministicKey();
-    keyring.importMnemonic(newMnemonic);
-    console.log('Mnemonic successfully retrieved/generated and imported');
+    try {
+      keyring.importMnemonic(process.env.STORJ_MNEMONIC);
+    } catch(err) {
+      console.log('process.env.STORJ_MNEONIC', err);
+      try {
+        keyring.importMnemonic(keyring.generateDeterministicKey());
+      } catch(err) {
+        console.log('generateDeterministicKey', err);
+      }
+    }
   }
 
+  console.log('Mnemonic successfully retrieved/generated and imported');
   if (!process.env.STORJ_MNEMONIC) {
     console.log('Mnemonic not saved to env vars. Saving...');
     // Write mnemonic to .env file
     fs.appendFileSync('./.env', `STORJ_MNEMONIC="${mnemonic || newMnemonic}"`);
-    console.log('Mnemonic written to .env file. Make sure to add this to heroku config variables with \'heroku config:set STORJ_MNEMONIC="<VALUE FROM .ENV FILE>"');
+    console.log('Mnemonic written to .env file. Make sure to add this to heroku config variables with \'heroku config:set STORJ_MNEMONIC="<VALUE FROM .ENV FILE>\'');
     return;
   }
 }
