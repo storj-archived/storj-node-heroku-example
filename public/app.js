@@ -19,7 +19,7 @@ $(document).ready(function() {
         $('.credentials--password').html(`Password: ${credentials.password}`);
       } else {
         $('.credentials-result')
-          .text('Missing credentials! Check index.js and make sure you have a .env file with KEY=VALUE pairs')
+          .text('Missing credentials! Check index.js and make sure you have a .env file with KEY=VALUE pairs.')
           .addClass('spacer')
           .css('color', 'red');
       }
@@ -85,16 +85,9 @@ $(document).ready(function() {
       if (!keypairs.length) {
         $('.keypair-retrieved').html('No keys retrieved');
       } else {
-        $('.keypair-retrieved--success')
-          .html('Keys Retrieved:')
+        $('.keypair-retrieved')
+          .html('Keys Retrieved: Check console')
           .css('color', 'green');
-
-        // Create an li element for each keypair and append to ul
-        keypairs.forEach(function(keypair) {
-          var keyItem = document.createElement('li');
-          $(keyItem).text(keypair.key);
-          $('.keypair-public').append(keyItem);
-        });
       }
     }).error(function(err) {
       handleError('Key pair retrieved', '.keypair-retrieved', 'text', err);
