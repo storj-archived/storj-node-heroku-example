@@ -210,8 +210,9 @@ You can see these by going to the _‘Settings’_ tab and clicking on the _‘R
 
 You’ll use these same credentials to log into [storj.io](https://app.storj.io).
 
-~~### Email Confirmation~~ [deprecated as of 2017-02-14]
+### ~~Email Confirmation~~ [deprecated as of 2017-02-14]
 #### Email confirmation is now done automatically for you
+
 You’ll also receive an email from *robot@storj.io*. This email will go to the account that you used when you signed up for your Heroku account.
 
 Confirming the email will open up a tab/window indicating you’ve been activated. It will return some JSON that looks like this:
@@ -749,8 +750,8 @@ app.get('/buckets/list', function(req, res) {
 });
 ```
 
-~~## Upload File~~ [deprecated as of 2017-02-14]
-### Note: Use code in the `master` branch. The secret to encrypt/decrypt files is now created deterministically with a mnemonic stored on the keyring.
+## ~~Upload File~~
+### [deprecated as of 2017-02-14]. Note: Use code in the `master` branch. The secret to encrypt/decrypt files is now created deterministically with a mnemonic stored on the keyring.
 
 In `app.js`
 
@@ -966,7 +967,7 @@ app.get('/files/list', function(req, res) {
 });
 ```
 
-~~## Download Files~~ [deprecated as of 2017-02-14]
+## ~~Download Files~~ [deprecated as of 2017-02-14]
 ### Note: Use code in the `master` branch. The secret to encrypt/decrypt files is now created deterministically with a mnemonic stored on the keyring.
 
 We’ve uploaded a file and we’ve listed files inside buckets. All that’s left now is to download the file and display it on our page.
