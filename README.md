@@ -5,7 +5,7 @@ A Node.js app using [Express 4](http://expressjs.com/), with jQuery on the clien
 ## Prerequisites
 
 - [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)
-- [Node.js](http://nodejs.org) > v6.9.1
+- [Node.js](http://nodejs.org) > v6.9.5
 - [Nodemon](https://github.com/remy/nodemon)
 
 ## Contents
@@ -171,7 +171,7 @@ You can also use `npm start`, but you will need to pass in variables at that tim
 $ STORJ_EMAIL=email@email.com STORJ_PASSWORD=password npm start
 ```
 
-*On first load, `STORJ_MNEMONIC` will be generated for you. You'll need to add this to your Heroku config variables as well.*
+*On first load, `STORJ_MNEMONIC` will be generated for you. You'll need to add this to your Heroku config variables as well.* _If you do not add this to your Heroku config variables, anything you upload on your local machine will not be able to be downloaded on your dyno because the mnemonics will not match_
 
 After running one of those commands, your app should now be running on [localhost:5000](http://localhost:5000/). Yay!
 
