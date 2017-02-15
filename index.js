@@ -458,7 +458,7 @@ function getFileKey(user, bucketId, filename) {
  */
 function generateMnemonic() {
   console.log('Attempting to retrieve mnemonic');
-  var mnemonic = keyring.exportMnemonic();
+  var mnemonic = keyring ? keyring.exportMnemonic() : undefined;
   if (mnemonic) {
     console.log('Mnemonic already exists');
   } else {
