@@ -463,16 +463,17 @@ function generateMnemonic() {
   if (mnemonic) {
     console.log('Mnemonic already exists');
   } else {
+    console.log('Mnemonic doesn\'t exist or new keyring');
     var newMnemonic = process.env.STORJ_MNEMONIC || keyring.generateDeterministicKey();
     keyring.importMnemonic(newMnemonic);
-    console.log('Mnemonic successfully generated and imported');
+    console.log('Mnemonic successfully retrieved/generated and imported');
   }
 
   if (!process.env.STORJ_MNEMONIC) {
     console.log('Mnemonic not saved to env vars. Saving...');
     // Write mnemonic to .env file
     fs.appendFileSync('./.env', `STORJ_MNEMONIC="${mnemonic || newMnemonic}"`);
-    console.log('Mnemonic written to .env file. Make sure to add this to heroku config variables');
+    console.log('Mnemonic written to .env file. Make sure to add this to heroku config variables with \'heroku config:set STORJ_MNEMONIC="<VALUE FROM .ENV FILE>\'');
     return;
   }
 }
