@@ -472,7 +472,7 @@ function generateMnemonic() {
     console.log('Mnemonic not saved to env vars. Saving...');
     // Write mnemonic to .env file
     fs.appendFileSync('./.env', `STORJ_MNEMONIC="${mnemonic || newMnemonic}"`);
-    console.log('Mnemonic written to .env file. Make sure to add this to heroku config variables with \'heroku config:set STORJ_MNEMONIC="<VALUE FROM .ENV FILE>\'');
+    console.log('Mnemonic written to .env file. Make sure to add this to heroku config variables with \'heroku config:set STORJ_MNEMONIC="<VALUE FROM .ENV FILE>"');
     return;
   }
 }

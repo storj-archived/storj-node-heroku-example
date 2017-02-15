@@ -33,12 +33,12 @@ A Node.js app using [Express 4](http://expressjs.com/), with jQuery on the clien
 
 # Getting Started
 
-This section assumes you just want to get up and running with a working Heroku Application using Storj. You'll be able to authenticate with Storj, create key pairs, create buckets, and upload and download a file. If you want to dive in, head to the [Tutorial](#tutorial) section.
+This section assumes you just want to get up and running with a working Heroku Application using Storj. You'll be able to authenticate with Storj, create key pairs, create buckets, and upload and download a file.
 
 ## Clone Repo
 
 ```sh
-$ git clone https://github.com:Storj/storj-node-heroku-example.git # or fork and clone your own
+$ git clone https://github.com/Storj/storj-node-heroku-example.git # or fork and clone your own
 $ cd storj-node-heroku-example
 $ npm install
 ```
@@ -53,10 +53,12 @@ For super duper easy deployment, click this button. It will create a Heroku appl
 
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
+(If you clicked on 'View App' after the application built, you'll notice there is an application error. This is because you'll need to manually add the Storj Add-on. We'll get to that in the next section.)
+
 Once it's deployed, hook up your repo to Heroku so you can make future changes with:
 
 ```sh
-$ git remote add heroku git@heroku.com:APP-NAME.git
+$ git remote add heroku https://git.heroku.com/APP-NAME.git
 ```
 
 (Note: replace `APP-NAME` with the name of your Heroku application)
@@ -90,6 +92,14 @@ Creating ⬢ storj-heroku-tutorial-0203... done
 https://storj-heroku-tutorial-0203.herokuapp.com/ | https://git.heroku.com/storj-heroku-tutorial-0203.git
 ```
 
+Hook up your repo to Heroku so you can make future changes with:
+
+```sh
+$ git remote add heroku https://git.heroku.com/APP-NAME.git
+```
+
+(Note: replace `APP-NAME` with the name of your Heroku application)
+
 Now, we'll push this to a heroku branch for deployment (you'll also use this same command to push up any local changes you've made for deployment):
 
 ```sh
@@ -101,6 +111,8 @@ Once that's done building, you can open your app with:
 ```sh
 $ heroku open
 ```
+
+(Note: This will display an Application Error until you go to the next step)
 
 ## Add Storj Add-on
 
@@ -158,6 +170,8 @@ You can also use `npm start`, but you will need to pass in variables at that tim
 ```sh
 $ STORJ_EMAIL=email@email.com STORJ_PASSWORD=password npm start
 ```
+
+*On first load, `STORJ_MNEMONIC` will be generated for you. You'll need to add this to your Heroku config variables as well.*
 
 After running one of those commands, your app should now be running on [localhost:5000](http://localhost:5000/). Yay!
 
