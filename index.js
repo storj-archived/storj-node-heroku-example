@@ -13,7 +13,7 @@ var storj_utils = require('storj-lib/lib/utils');
 var api = 'https://api.storj.io';
 var client;
 var KEYRING_PASS = 'somepassword';
-var keyring = storj.KeyRing('./', KEYRING_PASS);
+var keyring;
 
 // Storj variables
 var STORJ_EMAIL = process.env.STORJ_EMAIL;
@@ -462,6 +462,7 @@ function generateMnemonic() {
   if (mnemonic) {
     console.log('Mnemonic already exists');
   } else {
+    keyring = storj.KeyRing('./');
     var newMnemonic = keyring.generateDeterministicKey();
     keyring.importMnemonic(newMnemonic);
     console.log('Mnemonic successfully generated and imported');
