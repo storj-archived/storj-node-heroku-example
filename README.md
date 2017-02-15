@@ -20,14 +20,14 @@ A Node.js app using [Express 4](http://expressjs.com/), with jQuery on the clien
 3. [Tutorial](#tutorial)
     1. [Deploying Demo Application](#deploying-demo-application)
     2. [Adding Storj Add-on](#adding-storj-add-on)
-    3. [Activating Storj Account](#activating-storj-account)
+    3. [Activating Storj Account](#activating-storj-account) [deprecated]
     4. [Exploring Demo Application](#exploring-demo-application)
     5. [Application Setup and Authentication](#application-setup-and-authentication)
     6. [Key Pairs](#key-pairs)
     7. [Create and List Buckets](#create-and-list-buckets)
-    8. [Upload File](#upload-file)
+    8. [Upload File](#upload-file) [deprecated]
     9. [List Files](#list-files)
-    10. [Download Files](#download-files)
+    10. [Download Files](#download-files) [deprecated]
     11. [Pushing to Heroku](#pushing-to-heroku)
     12. [Summary and Additional Resources](#summary-and-additional-resources)
 
@@ -56,12 +56,12 @@ For super duper easy deployment, click this button. It will create a Heroku appl
 Once it's deployed, hook up your repo to Heroku so you can make future changes with:
 
 ```sh
-$ git remote add heroku https://git.heroku.com/APP-NAME.git
+$ git remote add heroku git@heroku.com:APP-NAME.git
 ```
 
 (Note: replace `APP-NAME` with the name of your Heroku application)
 
-Now, when you make changes locally and want to push them up, you can use the following command to deploy those changes:
+Now, when you make and commit changes locally and want to push them up, you can use the following command to deploy those changes:
 
 ```sh
 $ git push heroku master
@@ -137,7 +137,7 @@ $ heroku config:set STORJ_PASSWORD=your_password STORJ_EMAIL=your_email
 
 ## Setup
 
-Now that you've got your application cloned and connected to Heroku, you'll need to create a `.env` file to hold your Storj config variables. This will allow you to easily run the app on your local environment.
+Now that you've got your application cloned and connected to Heroku, you'll need to create a `.env` file to hold your Storj config variables. This will allow you to easily run the app on your local environment. Whatever variables you have in this file, you'll want to make sure you have on your Heroku Settings --> Config Vars. You can add these variables through the GUI or using the CLI (`heroku config:set CONFIG_VAR_KEY=CONFIG_VAR_VALUE`).
 
 1. Create a `.env` file in the root of the project `touch .env`
 2. Add `STORJ_EMAIL` and `STORJ_PASSWORD` credentials to it in `KEY=VALUE` format
@@ -210,7 +210,8 @@ You can see these by going to the _‘Settings’_ tab and clicking on the _‘R
 
 You’ll use these same credentials to log into [storj.io](https://app.storj.io).
 
-### Email Confirmation
+~~### Email Confirmation~~ [deprecated as of 2017-02-14]
+#### Email confirmation is now done automatically for you
 You’ll also receive an email from *robot@storj.io*. This email will go to the account that you used when you signed up for your Heroku account.
 
 Confirming the email will open up a tab/window indicating you’ve been activated. It will return some JSON that looks like this:
@@ -328,6 +329,7 @@ That’s all we need to link our repo to our Heroku application. Now we can work
 ## Application Setup and Authentication
 
 ### Boilerplate Code Walkthrough
+*2017-02-14 Note:* `master` branch now has the complete code. If you want to build out the application step by step, switch to the `barebones` branch. There are breaking changes in how the key ring is handled, however.
 
 Since the purpose of this tutorial is to focus on Storj code, we’ve built out the client and started the Express code. On the front-end we’ll be using jQuery, but you can easily take what we’re doing and apply it to React, Angular, Vue, or any other library/framework, since most of the Storj-specific code is going to be done on the backend.
 
@@ -747,7 +749,8 @@ app.get('/buckets/list', function(req, res) {
 });
 ```
 
-## Upload File
+~~## Upload File~~ [deprecated as of 2017-02-14]
+### Note: Use code in the `master` branch. The secret to encrypt/decrypt files is now created deterministically with a mnemonic stored on the keyring.
 
 In `app.js`
 
@@ -963,7 +966,8 @@ app.get('/files/list', function(req, res) {
 });
 ```
 
-## Download Files
+~~## Download Files~~ [deprecated as of 2017-02-14]
+### Note: Use code in the `master` branch. The secret to encrypt/decrypt files is now created deterministically with a mnemonic stored on the keyring.
 
 We’ve uploaded a file and we’ve listed files inside buckets. All that’s left now is to download the file and display it on our page.
 
