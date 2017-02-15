@@ -13,7 +13,7 @@ var storj_utils = require('storj-lib/lib/utils');
 var api = 'https://api.storj.io';
 var client;
 var KEYRING_PASS = 'somepassword';
-var keyring;
+var keyring = storj.KeyRing('./');
 
 // Storj variables
 var STORJ_EMAIL = process.env.STORJ_EMAIL;
@@ -442,7 +442,8 @@ app.listen(app.get('port'), function() {
  */
 function getFileKey(user, bucketId, filename) {
   console.log('Generating filekey...')
-  console.log('menemoenefejfdsa', keyring.exportMnemonic())
+  console.log('menemoenefejfdsa', keyring.exportMnemonic());
+  generateMnemonic();
   var realBucketId = storj_utils.calculateBucketId(user, bucketId);
   var realFileId = storj_utils.calculateFileId(bucketId, filename);
   var filekey = keyring.generateFileKey(realBucketId, realFileId);
@@ -458,12 +459,11 @@ function getFileKey(user, bucketId, filename) {
  */
 function generateMnemonic() {
   console.log('Attempting to retrieve mnemonic');
-  var mnemonic = keyring ? keyring.exportMnemonic() : undefined;
+  var mnemonic = keyring.exportMnemonic();
   if (mnemonic) {
     console.log('Mnemonic already exists');
   } else {
-    keyring = storj.KeyRing('./');
-    var newMnemonic = keyring.generateDeterministicKey();
+    var newMnemonic = process.env.STORJ_MNEMONIC || keyring.generateDeterministicKey();
     keyring.importMnemonic(newMnemonic);
     console.log('Mnemonic successfully generated and imported');
   }
