@@ -442,10 +442,11 @@ app.listen(app.get('port'), function() {
  */
 function getFileKey(user, bucketId, filename) {
   console.log('Generating filekey...')
+  console.log('menemoenefejfdsa', keyring.exportMnemonic())
   var realBucketId = storj_utils.calculateBucketId(user, bucketId);
   var realFileId = storj_utils.calculateFileId(bucketId, filename);
   var filekey = keyring.generateFileKey(realBucketId, realFileId);
-  console.log('Filekey generated')
+  console.log('Filekey generated', filekey)
   return filekey;
 }
 
