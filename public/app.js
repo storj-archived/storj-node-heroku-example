@@ -64,7 +64,7 @@ $(document).ready(function() {
     }).done(function(keypair) {
       console.log('Generated key pair ', keypair);
       $('.keypair-generated')
-        .html(`Key Pair generated! ${keypair}. Make sure to add this to your heroku config variables either through the GUI or with the CLI with 'heroku config:set STORJ_PRIVATE_KEY=<VALUE FROM .ENV FILE>`);
+        .html(`Key Pair generated! ${keypair}. Make sure to add this to your heroku config variables either through the GUI or with the CLI with 'heroku config:set STORJ_PRIVATE_KEY=<VALUE FROM .ENV FILE>`)
         .css('color', 'green');
     }).error(function(err) {
       handleError('Key Pair Generated', '.keypair-generated', 'html', err);
