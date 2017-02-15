@@ -213,7 +213,7 @@ You’ll use these same credentials to log into [storj.io](https://app.storj.io)
 ### ~~Email Confirmation~~ [deprecated as of 2017-02-14]
 #### Email confirmation is now done automatically for you
 
-You’ll also receive an email from *robot@storj.io*. This email will go to the account that you used when you signed up for your Heroku account.
+~~You’ll also receive an email from *robot@storj.io*. This email will go to the account that you used when you signed up for your Heroku account.
 
 Confirming the email will open up a tab/window indicating you’ve been activated. It will return some JSON that looks like this:
 
@@ -225,6 +225,7 @@ Confirming the email will open up a tab/window indicating you’ve been activate
   "id": "<your STORJ_EMAIL config variable>@heroku.storj.io"
 }
 ```
+~~
 
 ## Exploring Demo Application
 
