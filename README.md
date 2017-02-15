@@ -20,14 +20,14 @@ A Node.js app using [Express 4](http://expressjs.com/), with jQuery on the clien
 3. [Tutorial](#tutorial)
     1. [Deploying Demo Application](#deploying-demo-application)
     2. [Adding Storj Add-on](#adding-storj-add-on)
-    3. [Activating Storj Account](#activating-storj-account) [deprecated]
+    3. [Activating Storj Account](#activating-storj-account) [email activation deprecated]
     4. [Exploring Demo Application](#exploring-demo-application)
     5. [Application Setup and Authentication](#application-setup-and-authentication)
     6. [Key Pairs](#key-pairs)
     7. [Create and List Buckets](#create-and-list-buckets)
-    8. [Upload File](#upload-file) [deprecated]
+    8. [Upload File](#upload-file) [index.js code deprecated]
     9. [List Files](#list-files)
-    10. [Download Files](#download-files) [deprecated]
+    10. [Download Files](#download-files) [index.js code deprecated]
     11. [Pushing to Heroku](#pushing-to-heroku)
     12. [Summary and Additional Resources](#summary-and-additional-resources)
 
@@ -750,8 +750,8 @@ app.get('/buckets/list', function(req, res) {
 });
 ```
 
-## ~~Upload File~~
-### [deprecated as of 2017-02-14]. Note: Use code in the `master` branch. The secret to encrypt/decrypt files is now created deterministically with a mnemonic stored on the keyring.
+## Upload File
+### [index.js code deprecated as of 2017-02-14]. Note: Use code in the `master` branch. The secret to encrypt/decrypt files is now created deterministically with a mnemonic stored on the keyring.
 
 In `app.js`
 
@@ -967,8 +967,8 @@ app.get('/files/list', function(req, res) {
 });
 ```
 
-## ~~Download Files~~ [deprecated as of 2017-02-14]
-### Note: Use code in the `master` branch. The secret to encrypt/decrypt files is now created deterministically with a mnemonic stored on the keyring.
+## Download Files
+### [index.js code deprecated as of 2017-02-14]. Note: Use code in the `master` branch. The secret to encrypt/decrypt files is now created deterministically with a mnemonic stored on the keyring.
 
 We’ve uploaded a file and we’ve listed files inside buckets. All that’s left now is to download the file and display it on our page.
 
