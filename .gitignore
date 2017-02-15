@@ -3,7 +3,6 @@ node_modules
 npm-debug.log
 
 # Local development
-key.ring
 *.env
 *.dev
 .DS_Store
