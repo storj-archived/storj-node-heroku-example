@@ -27,10 +27,6 @@ var STORJ_PASSWORD = process.env.STORJ_PASSWORD;
 */
 var STORJ_MNEMONIC = process.env.STORJ_MNEMONIC || generateMnemonic();
 
-if (STORJ_EMAIL && STORJ_PASSWORD && STORJ_MNEMONIC) {
-  console.log('All env vars present in .env file!');
-}
-
 var storjCredentials = {
   email: STORJ_EMAIL,
   password: STORJ_PASSWORD
