@@ -1,6 +1,6 @@
 {
   "name": "storj-node-heroku-example",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Example application using Storj and Node.js with Express 4",
   "engines": {
     "node": "6.9.5"
