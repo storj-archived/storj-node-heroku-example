@@ -3,7 +3,7 @@
   "version": "0.4.1",
   "description": "Example application using Storj and Node.js with Express 4",
   "engines": {
-    "node": "6.9.5"
+    "node": "6.10.0"
   },
   "main": "index.js",
   "scripts": {
@@ -15,7 +15,7 @@
     "body-parser": "^1.15.2",
     "dotenv": "^4.0.0",
     "express": "4.13.3",
-    "storj-lib": "6.3.1",
+    "storj-lib": "^6.3.2",
     "through": "^2.3.8"
   },
   "repository": {
