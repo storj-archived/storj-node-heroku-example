@@ -1,3 +1,5 @@
+**Notice: Development on this repository is currently on pause during our v3 rearchitecture. Please see [storj/storj](https://github.com/storj/storj) for ongoing v3 development.**
+
 # A Storj-Node Heroku Application
 
 A Node.js app using [Express 4](http://expressjs.com/), with jQuery on the client. This application starts out ready for you to roll (aside from adding your own [`.env` file](#setup) which you'll populate with your Storj credentials). If you'd like to build everything out step by step, a `barebones` branch is provided for you and you can use the [videos](https://www.youtube.com/playlist?list=PLEr5Xx0gHvFG55T-_kLKlWosSBw32vP9N) and/or [written](#tutorial) tutorials.
